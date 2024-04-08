@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace ChatApi.Models;
 
-namespace ChatApi.Models
+public class Message
 {
-  public class Message
-  {
-    public Guid ChatId { get; set; }
-    public Chat Chat { get; set; }
-    public int MessageId { get; set; }
-  }
+  public Guid ChatId { get; set; }
+  public Chat Chat { get; set; }
+  public Guid SenderId { get; set; }
+  public User Sender { get; set; }
+  public int MessageId { get; set; }
+  public string Text { get; set; }
 }
