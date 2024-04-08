@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChatShared.Models;
 
 namespace ChatApi.Models;
 

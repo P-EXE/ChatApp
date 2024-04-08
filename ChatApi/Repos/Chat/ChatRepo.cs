@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ChatApi.DataContexts;
 using ChatApi.Models;
+using ChatShared.Models;
 
 namespace ChatApi.Repos;
 
@@ -36,7 +37,7 @@ public class ChatRepo : IChatRepo
   public async Task AddUserToChatAsync(Guid chatId, Guid userId)
   {
     Chat? chat = await _context.Chats.FindAsync(chatId);
-    User? user = await _context.Users.FindAsync(userId);
+    AppUser? user = await _context.Users.FindAsync(userId);
 
     chat.Users.Add(user);
 
@@ -49,7 +50,7 @@ public class ChatRepo : IChatRepo
   public async Task RemoveUserFromChatAsync(Guid chatId, Guid userId)
   {
     Chat? chat = await _context.Chats.FindAsync(chatId);
-    User? user = await _context.Users.FindAsync(userId);
+    AppUser? user = await _context.Users.FindAsync(userId);
 
     chat.Users.Remove(user);
 

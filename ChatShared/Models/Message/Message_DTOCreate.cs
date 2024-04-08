@@ -1,4 +1,4 @@
-﻿namespace ChatApi.Models;
+﻿namespace ChatShared.Models;
 
 public class Message_DTOCreate
 {

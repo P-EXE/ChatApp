@@ -1,5 +1,6 @@
 using ChatApi.DataContexts;
-using ChatApi.Models;
+using ChatApi.Repos;
+using ChatShared.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -12,7 +13,7 @@ public class Program
   {
     var builder = WebApplication.CreateBuilder(args);
 
-    // Add services to the container.
+    #region Services
 
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -36,12 +37,20 @@ public class Program
     );
 
     builder.Services.AddAuthorization();
-    builder.Services.AddIdentityApiEndpoints<User>()
+    builder.Services.AddIdentityApiEndpoints<AppUser>()
       .AddEntityFrameworkStores<SQLDBContext>();
 
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+    builder.Services.AddScoped<IUserRepo, UserRepo>();
+    builder.Services.AddScoped<IChatRepo, ChatRepo>();
+    builder.Services.AddScoped<IMessageRepo, MessageRepo>();
+
+    #endregion Services
+
     var app = builder.Build();
+
+    #region App
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
@@ -50,7 +59,7 @@ public class Program
       app.UseSwaggerUI();
     }
 
-    app.MapGroup("/api/user").MapIdentityApi<User>();
+    app.MapGroup("/api/user").MapIdentityApi<AppUser>();
 
     app.UseHttpsRedirection();
 
@@ -59,5 +68,7 @@ public class Program
     app.MapControllers();
 
     app.Run();
+
+    #endregion App
   }
 }

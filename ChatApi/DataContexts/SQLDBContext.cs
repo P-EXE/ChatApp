@@ -1,11 +1,11 @@
-﻿using ChatApi.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ChatShared.Models;
 
 namespace ChatApi.DataContexts
 {
-  public class SQLDBContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+  public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
   {
 
     public DbSet<Chat> Chats => Set<Chat>();
@@ -19,7 +19,7 @@ namespace ChatApi.DataContexts
     {
       base.OnModelCreating(builder);
 
-      builder.Entity<User>(u =>
+      builder.Entity<AppUser>(u =>
       {
         u.HasKey(u => u.Id);
         u.HasMany(u => u.Contacts).WithMany();

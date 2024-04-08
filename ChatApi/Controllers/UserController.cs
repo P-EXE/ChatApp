@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using ChatApi.DataContexts;
-using ChatApi.Models;
-using Microsoft.AspNetCore.Http;
+﻿using ChatApi.Repos;
 using Microsoft.AspNetCore.Mvc;
+using ChatShared.Models;
 
 namespace ChatApi.Controllers;
 
@@ -10,19 +8,16 @@ namespace ChatApi.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-  private readonly SQLDBContext _sqldbContext;
-  private readonly IMapper _mapper;
+  private readonly IUserRepo _userRepo;
 
-  public UserController(SQLDBContext sqldbContext, IMapper mapper)
+  public UserController(IUserRepo userRepo)
   {
-    _sqldbContext = sqldbContext;
-    _mapper = mapper;
+    _userRepo = userRepo;
   }
 
   [HttpGet("{userId}")]
-  public async Task<User?> GetUserById([FromRoute] Guid userId)
+  public async Task<AppUser?> GetUserById([FromRoute] Guid userId)
   {
-    User? user = await _sqldbContext.Users.FindAsync(userId);
-    return user;
+    return await _userRepo.GetUserByIdAsync(userId);
   }
 }

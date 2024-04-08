@@ -1,5 +1,5 @@
 ﻿using ChatApi.Models;
-using Microsoft.AspNetCore.Mvc;
+using ChatShared.Models;
 
 namespace ChatApi.Repos;
 

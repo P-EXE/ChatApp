@@ -1,8 +1,8 @@
-﻿using ChatApi.Models;
+﻿using ChatShared.Models;
 
 namespace ChatApi.Repos;
 
 public interface IUserRepo
 {
-  Task<User?> GetUserById(Guid userÍd);
+  Task<AppUser?> GetUserByIdAsync(Guid userÍd);
 }

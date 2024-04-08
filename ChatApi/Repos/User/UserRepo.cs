@@ -1,5 +1,5 @@
 ﻿using ChatApi.DataContexts;
-using ChatApi.Models;
+using ChatShared.Models;
 
 namespace ChatApi.Repos;
 
@@ -12,9 +12,9 @@ public class UserRepo : IUserRepo
     _context = context;
   }
 
-  public async Task<User?> GetUserById(Guid userId)
+  public async Task<AppUser?> GetUserByIdAsync(Guid userId)
   {
-    User? user = await _context.Users.FindAsync(userId);
+    AppUser? user = await _context.Users.FindAsync(userId);
     return user;
   }
 }
