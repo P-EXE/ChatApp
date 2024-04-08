@@ -25,8 +25,12 @@ public static class MauiProgram
     builder.Services.AddSingleton<SettingsPage>();
     builder.Services.AddSingleton<SettingsVM>();
 
-    builder.Services.AddScoped<RegisterPage>();
-    builder.Services.AddScoped<RegisterVM>();
+    builder.Services.AddSingleton<RegisterPage>();
+    builder.Services.AddSingleton<RegisterVM>();
+
+    builder.Services.AddSingleton<IUserDataService, UserDataService_API>();
+    builder.Services.AddSingleton<IChatDataService, ChatDataService_API>();
+    builder.Services.AddSingleton<IMessageDataService, MessageDataService_API>();
 
 #if DEBUG
     builder.Logging.AddDebug();

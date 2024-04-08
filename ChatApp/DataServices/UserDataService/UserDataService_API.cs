@@ -18,15 +18,17 @@ internal class UserDataService_API : IUserDataService
     };
   }
 
-  public async Task<AppUser?> CreateUserAsync(AppUser_DTOCreate createUser)
+  public async Task<bool> CreateUserAsync(AppUser_DTOCreate createUser)
   {
     string json = JsonSerializer.Serialize(createUser, _jsonSerializerOptions);
     StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-    HttpResponseMessage response = await _httpClient.PostAsync($"{DataServiceSettings.Address}/user/register", content);
-    string responseContent = await response.Content.ReadAsStringAsync();
-    AppUser? user = JsonSerializer.Deserialize<AppUser?>(responseContent, _jsonSerializerOptions);
-    return user;
+    HttpResponseMessage response = await _httpClient.PostAsync($"{DataServiceSettings.Address}user/register", content);
+    if (response.IsSuccessStatusCode)
+    {
+      return true;
+    }
+    return false;
   }
 
   public async Task<BearerToken?> ValidateUserAsync(AppUser_DTOCreate createUser)
@@ -34,7 +36,7 @@ internal class UserDataService_API : IUserDataService
     string? json = JsonSerializer.Serialize(createUser, _jsonSerializerOptions);
     StringContent? content = new StringContent(json, Encoding.UTF8, "application/json");
 
-    HttpResponseMessage? response = await _httpClient.PostAsync($"{DataServiceSettings.Address}/user/login", content);
+    HttpResponseMessage? response = await _httpClient.PostAsync($"{DataServiceSettings.Address}user/login", content);
     string? responseContent = await response.Content.ReadAsStringAsync();
     BearerToken? bearerToken = JsonSerializer.Deserialize<BearerToken?>(responseContent, _jsonSerializerOptions);
     return bearerToken;
@@ -45,7 +47,7 @@ internal class UserDataService_API : IUserDataService
     string? json = JsonSerializer.Serialize(bearerTokenOld.RefreshToken, _jsonSerializerOptions);
     StringContent? content = new StringContent(json, Encoding.UTF8, "application/json");
 
-    HttpResponseMessage? response = await _httpClient.PostAsync($"{DataServiceSettings.Address}/user/refresh", content);
+    HttpResponseMessage? response = await _httpClient.PostAsync($"{DataServiceSettings.Address}user/refresh", content);
     string? responseContent = await response.Content.ReadAsStringAsync();
     BearerToken? bearerToken = JsonSerializer.Deserialize<BearerToken?>(responseContent, _jsonSerializerOptions);
     return bearerToken;
@@ -53,7 +55,7 @@ internal class UserDataService_API : IUserDataService
 
   public async Task<AppUser?> GetUserByIdAsync(Guid userId)
   {
-    HttpResponseMessage response = await _httpClient.GetAsync($"{DataServiceSettings.Address}/users/{userId}");
+    HttpResponseMessage response = await _httpClient.GetAsync($"{DataServiceSettings.Address}users/{userId}");
     string responseContent = await response.Content.ReadAsStringAsync();
     AppUser? user = JsonSerializer.Deserialize<AppUser?>(responseContent, _jsonSerializerOptions);
     return user;

@@ -5,15 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ChatApp"
     xmlns:pages="clr-namespace:ChatApp.Pages"
-    Shell.FlyoutBehavior="Disabled"
-    Title="ChatApp">
+    xmlns:vm="clr-namespace:ChatApp.ViewModels"
+    Shell.FlyoutBehavior="Disabled">
 
   <TabBar>
-    <Tab Title="Home">
-      <ShellContent 
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-    </Tab>
     <Tab Title="Chats">
       <ShellContent 
         ContentTemplate="{DataTemplate pages:ChatsPage}"
@@ -29,7 +24,11 @@
         ContentTemplate="{DataTemplate pages:SettingsPage}"
         Route="SettingsPage" />
     </Tab>
+    <Tab Title="Account">
+      <ShellContent 
+        ContentTemplate="{DataTemplate pages:RegisterPage}"
+        Route="RegisterPage" />
+    </Tab>
   </TabBar>
-
 
 </Shell>

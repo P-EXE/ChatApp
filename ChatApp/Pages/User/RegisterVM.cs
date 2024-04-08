@@ -1,7 +1,9 @@
 ﻿using ChatApp.DataServices;
+using ChatApp.Pages;
 using ChatShared.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Diagnostics;
 
 namespace ChatApp.ViewModels;
 
@@ -18,7 +20,7 @@ public partial class RegisterVM : ObservableObject
   [ObservableProperty]
   private string _password;
   [ObservableProperty]
-  private bool _available;
+  private bool _available = true;
 
   [RelayCommand]
   public async Task Register()
@@ -29,12 +31,17 @@ public partial class RegisterVM : ObservableObject
       Password = Password
     };
 
-    AppUser? user = await _userDataService.CreateUserAsync(userCreate);
-    if (user == null)
-    {
-      return;
-    }
+    bool success = await _userDataService.CreateUserAsync(userCreate);
 
-    await Shell.Current.Navigation.PopAsync();
+    if (success)
+    {
+      await NavigateBack();
+    }
+  }
+
+  [RelayCommand]
+  public async Task NavigateBack()
+  {
+
   }
 }
