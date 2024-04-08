@@ -7,7 +7,6 @@ namespace ChatApi.DataContexts
 {
   public class SQLDBContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
   {
-    DbSet<User> Users => Set<User>(); 
     public SQLDBContext(DbContextOptions<SQLDBContext> options) : base(options)
     {
     }
