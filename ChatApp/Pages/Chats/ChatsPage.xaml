@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:ChatApp.ViewModels"
              xmlns:v="clr-namespace:ChatApp.Views"
-             x:Class="ChatApp.Pages.ChatsPage"
-             x:DataType="vm:ChatsVM">
-  <CollectionView ItemsSource="{Binding Chats}">
+             x:Class="ChatApp.Pages.ChatsPage">
+  <CollectionView ItemsSource="{Binding Chats}" x:DataType="vm:ChatsVM">
     <CollectionView.ItemTemplate>
       <DataTemplate>
         <SwipeView>

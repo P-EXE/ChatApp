@@ -2,12 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:ChatApp.ViewModels"
-             x:Class="ChatApp.Pages.ContactsPage"
-             x:DataType="vm:ContactsVM">
+             x:Class="ChatApp.Pages.RegisterPage"
+             x:DataType="vm:RegisterVM">
   <VerticalStackLayout>
-    <Label 
-            Text="Contacts"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <Entry Text="{Binding Email}" Placeholder="Email"/>
+    <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True"/>
+    <Button Text="Sign In" Command="{Binding RegisterCommand}"/>
   </VerticalStackLayout>
 </ContentPage>

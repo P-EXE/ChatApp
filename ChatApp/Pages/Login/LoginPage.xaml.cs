@@ -2,10 +2,10 @@ using ChatApp.ViewModels;
 
 namespace ChatApp.Pages;
 
-public partial class ChatsPage : ContentPage
+public partial class LoginPage : ContentPage
 {
-	private readonly ChatsVM _vm;
-	public ChatsPage(ChatsVM vm)
+	private readonly LoginVM _vm;
+	public LoginPage(LoginVM vm)
 	{
 		_vm = vm;
 		BindingContext = _vm;

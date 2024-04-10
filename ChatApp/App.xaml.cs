@@ -1,15 +1,15 @@
-﻿using ChatApp.DataServices;
-using ChatApp.Pages;
-using ChatApp.ViewModels;
+﻿using ChatApp.Flows;
 
 namespace ChatApp;
 
 public partial class App : Application
 {
-  public App()
+  public App(FirstTimeFlow firstTimeFlow)
   {
     InitializeComponent();
 
-    MainPage = new AppShell();
+    MainPage = new MainPage();
+
+    firstTimeFlow.FirstTimeSetup();
   }
 }
