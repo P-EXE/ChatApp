@@ -3,14 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:ChatApp.ViewModels"
              xmlns:v="clr-namespace:ChatApp.Views"
-             x:Class="ChatApp.Pages.ChatsPage">
-  <CollectionView ItemsSource="{Binding Chats}" x:DataType="vm:ChatsVM">
-    <CollectionView.ItemTemplate>
-      <DataTemplate>
-        <SwipeView>
-          <v:ChatV/>
-        </SwipeView>
-      </DataTemplate>
-    </CollectionView.ItemTemplate>
-  </CollectionView>
+             x:Class="ChatApp.Pages.ChatsPage"
+             x:DataType="vm:ChatsVM">
+  <Shell.TitleView>
+    <Button Text="Refresh" Command="{Binding RefreshCommand}"/>
+  </Shell.TitleView>
+  <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+    <CollectionView ItemsSource="{Binding Chats}">
+      <CollectionView.ItemTemplate>
+        <DataTemplate>
+          <SwipeView>
+            <v:ChatV_List/>
+          </SwipeView>
+        </DataTemplate>
+      </CollectionView.ItemTemplate>
+    </CollectionView>
+  </RefreshView>
 </ContentPage>

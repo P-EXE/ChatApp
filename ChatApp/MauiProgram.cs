@@ -1,5 +1,4 @@
 ﻿using ChatApp.DataContexts;
-using ChatApp.Flows;
 using ChatApp.Pages;
 using ChatApp.Services;
 using ChatApp.Services.Auth;
@@ -7,7 +6,6 @@ using ChatApp.ViewModels;
 using ChatApp.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Net.Http.Headers;
 
 namespace ChatApp;
 
@@ -51,12 +49,9 @@ public static class MauiProgram
     #region Models
     #endregion Models
 
-    #region Flows
-    builder.Services.AddTransient<FirstTimeFlow>();
-    #endregion Flows
-
     #region Pages Views Viewmodels
     builder.Services.AddTransient<AppShell>();
+    builder.Services.AddTransient<MainPage>();
 
     builder.Services.AddTransient<RegisterPage>();
     builder.Services.AddTransient<RegisterVM>();
@@ -66,7 +61,12 @@ public static class MauiProgram
 
     builder.Services.AddTransient<ChatsPage>();
     builder.Services.AddTransient<ChatsVM>();
-    builder.Services.AddTransient<ChatV>();
+    builder.Services.AddTransient<ChatV_List>();
+    builder.Services.AddTransient<ChatVM_List>();
+
+    builder.Services.AddTransient<ContactsPage>();
+    builder.Services.AddTransient<ContactsVM>();
+    builder.Services.AddTransient<ContactV>();
     #endregion Pages Views Viewmodels
 
 #if DEBUG

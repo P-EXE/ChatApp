@@ -1,4 +1,6 @@
-﻿namespace ChatApp;
+﻿using ChatShared.Models;
+
+namespace ChatApp;
 
 public static class Constants
 {
@@ -20,7 +22,8 @@ public static class Constants
     "<scope>"
   };
 
-  public static string APIConnection = "http://localhost:5225/api";
+  public static string APIConnection = "http://localhost:5225/api/";
+  public static BearerToken? BearerToken;
 
   public static string LocalDBConnection = "Data/ChatApp.db3";
 }

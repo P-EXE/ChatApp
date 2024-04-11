@@ -21,32 +21,34 @@ internal class HttpService : IHttpService
 
   public async Task<T?> GetAsync<T>(string route, [CallerMemberName] string caller = "")
   {
+    T? t = default(T);
     try
     {
       HttpResponseMessage response = await _httpClient.GetAsync(route);
       if (response.IsSuccessStatusCode)
       {
-        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : Got {nameof(T)}");
+        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : Got {t.GetType}");
         string responseContent = await response.Content.ReadAsStringAsync();
-        T? t = JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
+        t = JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
         return t;
       }
       else
       {
-        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : could not get {nameof(T)}");
+        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : could not get {t.GetType}");
         Debug.WriteLine($"           {response}");
       }
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get {nameof(T)}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get {t.GetType}");
       Debug.WriteLine($"               {ex}");
     }
-    return default(T?);
+    return t;
   }
 
   public async Task<T?> GetAsync<T>(string route, Dictionary<string, string> queriesDict, [CallerMemberName] string caller = "")
   {
+    T? t = default(T);
     string queries = "?";
     for (int i = 0; i < queriesDict.Count - 1; i++)
     {
@@ -59,23 +61,23 @@ internal class HttpService : IHttpService
       HttpResponseMessage response = await _httpClient.GetAsync(route + queries);
       if (response.IsSuccessStatusCode)
       {
-        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : Got {nameof(T)}");
+        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : Got {t.GetType}");
         string responseContent = await response.Content.ReadAsStringAsync();
-        T? t = JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
+        t = JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
         return t;
       }
       else
       {
-        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : could not get {nameof(T)}");
+        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : could not get {t.GetType}");
         Debug.WriteLine($"           {response}");
       }
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get {nameof(T)}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get {t.GetType}");
       Debug.WriteLine($"               {ex}");
     }
-    return default(T?);
+    return t;
   }
 
   public async Task<HttpResponseMessage?> FullPostAsync<T>(string route, T t, [CallerMemberName] string caller = "")
@@ -98,7 +100,7 @@ internal class HttpService : IHttpService
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : exception occured while trying to post {nameof(T)}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : exception occured while trying to post {t.GetType}");
       Debug.WriteLine($"               {ex}");
     }
     return null;
@@ -124,7 +126,7 @@ internal class HttpService : IHttpService
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : exception occured while trying to post {nameof(T)}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : exception occured while trying to post {t.GetType}");
       Debug.WriteLine($"               {ex}");
     }
     return false;

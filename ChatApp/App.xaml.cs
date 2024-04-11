@@ -1,15 +1,21 @@
-﻿using ChatApp.Flows;
+﻿using ChatApp.Pages;
+using ChatApp.Services.Auth;
 
 namespace ChatApp;
 
 public partial class App : Application
 {
-  public App(FirstTimeFlow firstTimeFlow)
+  public App(IAuthService authService)
   {
     InitializeComponent();
 
-    MainPage = new MainPage();
+    MainPage = new AppShell();
 
-    firstTimeFlow.FirstTimeSetup();
+    bool allowAccess = authService.CheckUserLoginStateAsync().Result;
+    if (allowAccess)
+    {
+      Shell.Current.GoToAsync($"//{nameof(ChatsPage)}");
+      return;
+    }
   }
 }
