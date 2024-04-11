@@ -1,16 +1,13 @@
-﻿using Auth0.OidcClient;
-using ChatApp.DataContexts;
-using ChatApp.DataServices;
+﻿using ChatApp.DataContexts;
 using ChatApp.Flows;
-using ChatApp.Models;
 using ChatApp.Pages;
 using ChatApp.Services;
+using ChatApp.Services.Auth;
 using ChatApp.ViewModels;
 using ChatApp.Views;
-using IdentityModel.OidcClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Headers;
 
 namespace ChatApp;
 
@@ -27,27 +24,23 @@ public static class MauiProgram
         fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
       });
 
-    #region Auth
-/*    builder.Services.AddTransient<OidcClient>(sp =>
-      new OidcClient(
-        new OidcClientOptions
-        {
-          Authority = "https://localhost:7014",
-          ClientId = "ChatApp.AppClient",
-          Scope = "",
-          RedirectUri = "",
-          PostLogoutRedirectUri = "",
-          ClientSecret = "",
-          HttpClientFactory = options => sp.GetRequiredService<HttpClient>()
-        }
-      )
-    );*/
-    #endregion Auth
+    #region Services
+    builder.Services.AddTransient<IAuthService, CustomAuthService>();
+    builder.Services.AddTransient<IHttpService, HttpService>();
+    builder.Services.AddHttpClient("DefaultClient", client =>
+    {
+      client.BaseAddress = new Uri(Constants.APIConnection);
+    });
+    builder.Services.AddHttpClient("AuthedClient", client =>
+    {
+      client.BaseAddress = new Uri(Constants.APIConnection);
+    });
+    #endregion Services
 
     #region SQLiteDBContext
     string SQLitePath = Path.Combine(
       FileSystem.AppDataDirectory,
-      builder.Configuration.GetConnectionString("ChatApp-SQLiteConnection") ?? ""
+      Constants.LocalDBConnection
     );
 
     builder.Services.AddDbContext<SQLiteDBContext>(options =>
@@ -61,15 +54,6 @@ public static class MauiProgram
     #region Flows
     builder.Services.AddTransient<FirstTimeFlow>();
     #endregion Flows
-
-    #region Services
-    builder.Services.AddSingleton<HTTPDataService>();
-    builder.Services.AddSingleton<UserDataService_Local>();
-    builder.Services.AddSingleton<UserDataService_API>();
-    builder.Services.AddSingleton<UserService>();
-
-    builder.Services.AddSingleton<ChatService>();
-    #endregion Services
 
     #region Pages Views Viewmodels
     builder.Services.AddTransient<AppShell>();

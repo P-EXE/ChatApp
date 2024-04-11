@@ -1,15 +1,12 @@
-﻿using ChatApp.Services;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace ChatApp.ViewModels;
 
 public partial class RegisterVM : ObservableObject
 {
-  private readonly UserService _userService;
-  public RegisterVM(UserService userService)
+  public RegisterVM()
   {
-    _userService = userService;
   }
 
   [ObservableProperty]
@@ -21,8 +18,5 @@ public partial class RegisterVM : ObservableObject
   public async Task Register()
   {
     bool success = false;
-    
-    success = await _userService.RegisterAsync(Email, Password);
-    if (!success) return;
   }
 }

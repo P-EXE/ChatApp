@@ -1,15 +1,12 @@
-﻿using ChatApp.Services;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace ChatApp.ViewModels;
 
 public partial class LoginVM : ObservableObject
 {
-  private readonly UserService _userService;
-  public LoginVM(UserService userService)
+  public LoginVM()
   {
-    _userService = userService;
   }
 
   [ObservableProperty]
