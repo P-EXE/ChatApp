@@ -20,4 +20,10 @@ public class UserController : ControllerBase
   {
     return await _userRepo.GetUserByIdAsync(userId);
   }
+
+  [HttpGet]
+  public async Task<IEnumerable<AppUser>?> GetUsersByName([FromQuery] string name)
+  {
+    return await _userRepo.GetUsersByNameAsync(name);
+  }
 }

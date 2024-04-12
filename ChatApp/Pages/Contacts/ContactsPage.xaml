@@ -2,12 +2,24 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:ChatApp.ViewModels"
+             xmlns:v="clr-namespace:ChatApp.Views"
              x:Class="ChatApp.Pages.ContactsPage"
              x:DataType="vm:ContactsVM">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+  <Shell.TitleView>
+    <Button Text="Refresh" Command="{Binding RefreshContactsListCommand}"/>
+  </Shell.TitleView>
+  <Grid RowDefinitions="*,auto">
+    <RefreshView Grid.Row="0" Command="{Binding RefreshContactsListCommand}" IsRefreshing="{Binding ContactsList_isRefreshing}">
+      <CollectionView ItemsSource="{Binding Contacts}">
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <SwipeView>
+              <v:ContactV/>
+            </SwipeView>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+    </RefreshView>
+    <Button Grid.Row="1" Text="Add Contact" Command="{Binding AddContactCommand}"/>
+  </Grid>
 </ContentPage>

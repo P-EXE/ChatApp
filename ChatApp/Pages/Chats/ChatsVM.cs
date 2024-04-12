@@ -1,4 +1,5 @@
-﻿using ChatShared.Models;
+﻿using ChatApp.Models;
+using ChatApp.Pages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -8,28 +9,21 @@ public partial class ChatsVM : ObservableObject
 {
   public ChatsVM()
   {
-    GetMockChatsAsync();
   }
 
   [ObservableProperty]
-  private List<ChatVM_List> _chats = new();
+  private List<ChatInfo> _chats;
   [ObservableProperty]
-  private bool _isRefreshing;
+  private bool _chatList_isRefreshing;
 
   [RelayCommand]
-  private async Task Refresh()
+  private async Task RefreshChatList()
   {
-    IsRefreshing = true;
-    GetMockChatsAsync();
-    IsRefreshing = false;
   }
 
-  private void GetMockChatsAsync()
+  [RelayCommand]
+  private async Task CreateNewChat()
   {
-    ChatVM_List chat = new() { Name = "Hallo" };
-    for (int i = 0; i <= 10; i++)
-    {
-      Chats.Add(chat);
-    }
+    await Shell.Current.GoToAsync(nameof(NewChatPage));
   }
 }

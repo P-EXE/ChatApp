@@ -6,6 +6,7 @@ using ChatApp.ViewModels;
 using ChatApp.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 
 namespace ChatApp;
 
@@ -16,6 +17,7 @@ public static class MauiProgram
     var builder = MauiApp.CreateBuilder();
     builder
       .UseMauiApp<App>()
+      .UseMauiCommunityToolkit()
       .ConfigureFonts(fonts =>
       {
         fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -24,6 +26,8 @@ public static class MauiProgram
 
     #region Services
     builder.Services.AddTransient<IAuthService, CustomAuthService>();
+    builder.Services.AddTransient<IContactService, ContactService>();
+    builder.Services.AddTransient<IChatService, ChatService>();
     builder.Services.AddTransient<IHttpService, HttpService>();
     builder.Services.AddHttpClient("DefaultClient", client =>
     {
@@ -46,9 +50,6 @@ public static class MauiProgram
     );
     #endregion SQLiteDBContext
 
-    #region Models
-    #endregion Models
-
     #region Pages Views Viewmodels
     builder.Services.AddTransient<AppShell>();
     builder.Services.AddTransient<MainPage>();
@@ -61,12 +62,17 @@ public static class MauiProgram
 
     builder.Services.AddTransient<ChatsPage>();
     builder.Services.AddTransient<ChatsVM>();
-    builder.Services.AddTransient<ChatV_List>();
-    builder.Services.AddTransient<ChatVM_List>();
+    builder.Services.AddTransient<ChatV>();
+
+    builder.Services.AddTransient<NewChatPage>();
+    builder.Services.AddTransient<NewChatVM>();
 
     builder.Services.AddTransient<ContactsPage>();
     builder.Services.AddTransient<ContactsVM>();
     builder.Services.AddTransient<ContactV>();
+
+    builder.Services.AddTransient<NewContactPage>();
+    builder.Services.AddTransient<NewContactVM>();
     #endregion Pages Views Viewmodels
 
 #if DEBUG

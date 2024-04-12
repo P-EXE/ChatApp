@@ -61,20 +61,20 @@ internal class HttpService : IHttpService
       HttpResponseMessage response = await _httpClient.GetAsync(route + queries);
       if (response.IsSuccessStatusCode)
       {
-        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : Got {t.GetType}");
+        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : Got {nameof(T)}");
         string responseContent = await response.Content.ReadAsStringAsync();
         t = JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
         return t;
       }
       else
       {
-        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : could not get {t.GetType}");
+        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : could not get {nameof(T)}");
         Debug.WriteLine($"           {response}");
       }
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get {t.GetType}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get {nameof(T)}");
       Debug.WriteLine($"               {ex}");
     }
     return t;

@@ -1,9 +1,8 @@
 ﻿using ChatShared.Models;
 
-namespace ChatApi.Repos;
+namespace ChatApp.Services;
 
-public interface IUserRepo
+public interface IContactService
 {
-  Task<AppUser?> GetUserByIdAsync(Guid userId);
   Task<IEnumerable<AppUser>?> GetUsersByNameAsync(string userName);
 }
