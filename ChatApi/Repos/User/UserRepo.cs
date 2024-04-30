@@ -1,4 +1,5 @@
-﻿using ChatApi.DataContexts;
+﻿using AutoMapper;
+using ChatApi.DataContexts;
 using ChatShared.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,12 +8,15 @@ namespace ChatApi.Repos;
 public class UserRepo : IUserRepo
 {
   private readonly SQLDBContext _context;
+  private readonly IMapper _mapper;
 
-  public UserRepo(SQLDBContext context)
+  public UserRepo(SQLDBContext context, IMapper mapper)
   {
     _context = context;
+    _mapper = mapper;
   }
 
+<<<<<<< HEAD
   public async Task<bool> AddContactToUserAsync(Guid userId, Guid contactId)
   {
     AppUser? user = await _context.Users.FindAsync(userId);
@@ -34,17 +38,20 @@ public class UserRepo : IUserRepo
     return users;
   }
 
-  public async Task<AppUser?> GetUserByIdAsync(Guid userId)
+=======
+  public async Task<AppUser_DTORead1?> GetUserByIdAsync(Guid userId)
   {
     AppUser? user = await _context.Users.FindAsync(userId);
-    return user;
+    AppUser_DTORead1? usersDTORead1 = _mapper.Map<AppUser, AppUser_DTORead1>(user);
+    return usersDTORead1;
   }
 
-  public async Task<IEnumerable<AppUser>?> GetUsersByNameAsync(string userName)
+  public async Task<IEnumerable<AppUser_DTORead1>?> GetUsersByNameAsync(string userName)
   {
     IEnumerable<AppUser>? users = _context.Users
       .Where(u => u.UserName.StartsWith(userName))
       .AsEnumerable();
-    return users;
+    IEnumerable<AppUser_DTORead1>? usersDTORead1 = _mapper.Map<IEnumerable<AppUser>, IEnumerable<AppUser_DTORead1>>(users);
+    return usersDTORead1;
   }
 }

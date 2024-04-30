@@ -16,13 +16,13 @@ public class UserController : ControllerBase
   }
 
   [HttpGet("{userId}")]
-  public async Task<AppUser?> GetUserById([FromRoute] Guid userId)
+  public async Task<AppUser_DTORead1?> GetUserById([FromRoute] Guid userId)
   {
     return await _userRepo.GetUserByIdAsync(userId);
   }
 
   [HttpGet]
-  public async Task<IEnumerable<AppUser>?> GetUsersByName([FromQuery] string name)
+  public async Task<IEnumerable<AppUser_DTORead1>?> GetUsersByName([FromQuery] string name)
   {
     return await _userRepo.GetUsersByNameAsync(name);
   }

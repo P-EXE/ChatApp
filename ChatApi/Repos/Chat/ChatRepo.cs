@@ -17,12 +17,13 @@ public class ChatRepo : IChatRepo
     _mapper = mapper;
   }
 
-  public async Task CreateChatAsync(Chat_DTOCreate createChat)
+  public async Task<Guid?> CreateChatAsync(AppUser user, Chat_DTOCreate createChat)
   {
     Chat? chat = _mapper.Map<Chat_DTOCreate, Chat>(createChat);
+    chat.Users.Add(user);
     _context.Chats.Add(chat);
-
     await _context.SaveChangesAsync();
+    return chat.Id;
   }
 
   public async Task DeleteChatAsync(Guid chatId)
