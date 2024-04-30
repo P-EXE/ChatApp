@@ -26,4 +26,16 @@ public class UserController : ControllerBase
   {
     return await _userRepo.GetUsersByNameAsync(name);
   }
+
+  [HttpPost("{userId}/contacts")]
+  public async Task GetContactsOfUser([FromRoute] Guid userId, [FromBody] Guid contactId)
+  {
+    await _userRepo.AddContactToUserAsync(userId, contactId);
+  }
+
+  [HttpGet("{userId}/contacts")]
+  public async Task<IEnumerable<AppUser>?> GetContactsOfUser([FromRoute] Guid userId)
+  {
+    return await _userRepo.GetContactsOfUserAsync(userId);
+  }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ChatApp.ViewModels"
+             x:Class="ChatApp.Pages.UserProfilePage"
+             x:DataType="vm:UserProfileVM">
+  <Grid RowDefinitions="auto, *, auto">
+    <HorizontalStackLayout Grid.Row="0">
+      <Image/>
+      <VerticalStackLayout>
+        <Label Text="{Binding User.UserName}"/>
+        <Label Text="{Binding User.Email}"/>
+      </VerticalStackLayout>
+    </HorizontalStackLayout>
+    <Grid Grid.Row="1"></Grid>
+    <Button Grid.Row="2" Text="Add To Contacts" Command="{Binding AddToContactsCommand}"/>
+  </Grid>
+</ContentPage>

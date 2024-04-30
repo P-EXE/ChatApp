@@ -13,6 +13,7 @@ namespace ChatApi.DataContexts
 
     public SQLDBContext(DbContextOptions<SQLDBContext> options) : base(options)
     {
+      Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

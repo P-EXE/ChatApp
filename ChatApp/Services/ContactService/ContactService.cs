@@ -10,6 +10,7 @@ public class ContactService : IContactService
   {
     _httpClientFactory = httpClientFactory;
   }
+
   public async Task<IEnumerable<AppUser>?> GetUsersByNameAsync(string userName)
   {
     HttpClient httpClient = _httpClientFactory.CreateClient("DefaultClient");
@@ -24,4 +25,14 @@ public class ContactService : IContactService
       );
     return users;
   }
+
+  public async Task<bool> AddUserToContacts(string userId)
+  {
+    /*    HttpClient httpClient = _httpClientFactory.CreateClient("AuthedClient");
+        IHttpService httpService = new HttpService(httpClient);
+
+        return await httpService.PostAsync($"users/{userId}");*/
+    return false;
+  }
+
 }

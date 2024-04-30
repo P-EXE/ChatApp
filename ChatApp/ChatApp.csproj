@@ -117,10 +117,15 @@
 	  <MauiXaml Update="Pages\Register\RegisterPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Settings\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\UserProfile\UserProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Pages\Settings\" />
 	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 

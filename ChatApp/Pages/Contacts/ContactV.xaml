@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:ChatShared.Models;assembly=ChatShared"
              x:Class="ChatApp.Views.ContactV">
-  <VerticalStackLayout>
-    <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+  <VerticalStackLayout x:DataType="m:AppUser">
+    <Label Text="{Binding UserName}"/>
+    <Label Text="{Binding Email}"/>
   </VerticalStackLayout>
 </ContentView>

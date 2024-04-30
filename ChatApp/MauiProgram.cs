@@ -25,24 +25,20 @@ public static class MauiProgram
       });
 
     #region Services
-    builder.Services.AddTransient<IAuthService, CustomAuthService>();
+    builder.Services.AddTransient<IOwnerService, OwnerService>();
     builder.Services.AddTransient<IContactService, ContactService>();
     builder.Services.AddTransient<IChatService, ChatService>();
     builder.Services.AddTransient<IHttpService, HttpService>();
-    builder.Services.AddHttpClient("DefaultClient", client =>
+    builder.Services.AddHttpClient<IHttpService, HttpService>(client =>
     {
-      client.BaseAddress = new Uri(Constants.APIConnection);
-    });
-    builder.Services.AddHttpClient("AuthedClient", client =>
-    {
-      client.BaseAddress = new Uri(Constants.APIConnection);
+      client.BaseAddress = new Uri(Statics.APIRouteBase);
     });
     #endregion Services
 
     #region SQLiteDBContext
     string SQLitePath = Path.Combine(
       FileSystem.AppDataDirectory,
-      Constants.LocalDBConnection
+      Statics.LocalDBConnection
     );
 
     builder.Services.AddDbContext<SQLiteDBContext>(options =>
@@ -70,6 +66,9 @@ public static class MauiProgram
     builder.Services.AddTransient<ContactsPage>();
     builder.Services.AddTransient<ContactsVM>();
     builder.Services.AddTransient<ContactV>();
+
+    builder.Services.AddTransient<UserProfilePage>();
+    builder.Services.AddTransient<UserProfileVM>();
 
     builder.Services.AddTransient<NewContactPage>();
     builder.Services.AddTransient<NewContactVM>();

@@ -7,9 +7,9 @@ namespace ChatApp.ViewModels;
 
 public partial class RegisterVM : ObservableObject
 {
-  private readonly IAuthService _authService;
+  private readonly IOwnerService _authService;
   private readonly LoginPage _loginPage;
-  public RegisterVM(IAuthService authService, LoginPage loginPage)
+  public RegisterVM(IOwnerService authService, LoginPage loginPage)
   {
     _authService = authService;
     _loginPage = loginPage;
@@ -26,7 +26,7 @@ public partial class RegisterVM : ObservableObject
     bool result = await _authService.RegisterAsync(Email, Password);
     if (result)
     {
-      await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+      await Shell.Current.GoToAsync($"//{nameof(ChatsPage)}");
       return;
     }
     await Shell.Current.DisplayAlert("Error", "Could not register.", "Close");

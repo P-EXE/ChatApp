@@ -1,6 +1,7 @@
 using ChatApi.DataContexts;
 using ChatApi.Repos;
 using ChatShared.Models;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -30,11 +31,23 @@ public class Program
       options.OperationFilter<SecurityRequirementsOperationFilter>();
     });
 
-    builder.Services.AddDbContext<SQLDBContext>(options =>
-      options.UseSqlServer(
-        builder.Configuration.GetConnectionString("ChatDB-SQLConnection")
-      )
+    #region Sqlite in Memory
+    SqliteConnection sqliteConnection = new SqliteConnection(
+      builder.Configuration.GetConnectionString("SQLiteConnection")
     );
+    sqliteConnection.Open();
+    builder.Services.AddDbContext<SQLDBContext>(options =>
+      options.UseSqlite(sqliteConnection)
+    );
+    #endregion Sqlite in Memory
+
+    #region SQLServer
+    /*    builder.Services.AddDbContext<SQLDBContext>(options =>
+          options.UseSqlServer(
+            builder.Configuration.GetConnectionString("ChatDB-SQLConnection")
+          )
+        );*/
+    #endregion SQLServer
 
     builder.Services.AddAuthorization();
     builder.Services.AddIdentityApiEndpoints<AppUser>()

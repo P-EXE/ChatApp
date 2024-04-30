@@ -27,20 +27,20 @@ internal class HttpService : IHttpService
       HttpResponseMessage response = await _httpClient.GetAsync(route);
       if (response.IsSuccessStatusCode)
       {
-        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : Got {t.GetType}");
+        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : {response.StatusCode}");
         string responseContent = await response.Content.ReadAsStringAsync();
         t = JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
         return t;
       }
       else
       {
-        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : could not get {t.GetType}");
+        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : {response.StatusCode}");
         Debug.WriteLine($"           {response}");
       }
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get {t.GetType}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get");
       Debug.WriteLine($"               {ex}");
     }
     return t;
@@ -61,20 +61,20 @@ internal class HttpService : IHttpService
       HttpResponseMessage response = await _httpClient.GetAsync(route + queries);
       if (response.IsSuccessStatusCode)
       {
-        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : Got {nameof(T)}");
+        Debug.WriteLine($"==Success==> {caller} / {nameof(GetAsync)} : {response.StatusCode}");
         string responseContent = await response.Content.ReadAsStringAsync();
         t = JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
         return t;
       }
       else
       {
-        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : could not get {nameof(T)}");
+        Debug.WriteLine($"==Error==> {caller} / {nameof(GetAsync)} : {response.StatusCode}");
         Debug.WriteLine($"           {response}");
       }
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get {nameof(T)}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(GetAsync)} : exception occured while trying to get");
       Debug.WriteLine($"               {ex}");
     }
     return t;
@@ -100,7 +100,7 @@ internal class HttpService : IHttpService
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : exception occured while trying to post {t.GetType}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : exception occured while trying to post");
       Debug.WriteLine($"               {ex}");
     }
     return null;
@@ -126,7 +126,7 @@ internal class HttpService : IHttpService
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : exception occured while trying to post {t.GetType}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : exception occured while trying to post");
       Debug.WriteLine($"               {ex}");
     }
     return false;
@@ -141,20 +141,20 @@ internal class HttpService : IHttpService
       HttpResponseMessage response = await _httpClient.PostAsync(route, content);
       if (response.IsSuccessStatusCode)
       {
-        Debug.WriteLine($"==Success==> {caller} / {nameof(PostAsync)} : Posted {nameof(T1)}, got back {nameof(T2)}");
+        Debug.WriteLine($"==Success==> {caller} / {nameof(PostAsync)} : {response.StatusCode}");
         string responseContent = await response.Content.ReadAsStringAsync();
         T2? t2 = JsonSerializer.Deserialize<T2>(responseContent, _jsonSerializerOptions);
         return t2;
       }
       else
       {
-        Debug.WriteLine($"==Error==> {caller} / {nameof(PostAsync)} : Posted {nameof(T1)}, could not get back {nameof(T2)}");
+        Debug.WriteLine($"==Error==> {caller} / {nameof(PostAsync)} : {response.StatusCode}");
         Debug.WriteLine($"           {response}");
       }
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : Exception occured while trying to post {nameof(T1)}");
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : Exception occured while trying to post");
       Debug.WriteLine($"               {ex}");
     }
     return default(T2?);

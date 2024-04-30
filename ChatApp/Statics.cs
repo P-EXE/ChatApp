@@ -2,7 +2,7 @@
 
 namespace ChatApp;
 
-public static class Constants
+public static class Statics
 {
   /// <summary>
   /// The base URI for the Datasync service.
@@ -22,7 +22,7 @@ public static class Constants
     "<scope>"
   };
 
-  public static string APIConnection = "http://localhost:5225/api/";
+  public static string APIRouteBase = "http://localhost:5225/api/";
   public static BearerToken? BearerToken;
 
   public static string LocalDBConnection = "Data/ChatApp.db3";

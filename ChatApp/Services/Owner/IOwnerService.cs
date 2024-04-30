@@ -1,6 +1,6 @@
 ﻿namespace ChatApp.Services.Auth;
 
-public interface IAuthService
+public interface IOwnerService
 {
   Task<bool> RegisterAsync(string email, string password);
   Task<bool> LoginAsync(string email, string password);

@@ -5,17 +5,17 @@ namespace ChatApp;
 
 public partial class App : Application
 {
-  public App(IAuthService authService)
+  public App(IOwnerService authService)
   {
     InitializeComponent();
 
     MainPage = new AppShell();
 
-    bool allowAccess = authService.CheckUserLoginStateAsync().Result;
+/*    bool allowAccess = authService.CheckUserLoginStateAsync().Result;
     if (allowAccess)
     {
       Shell.Current.GoToAsync($"//{nameof(ChatsPage)}");
       return;
-    }
+    }*/
   }
 }
