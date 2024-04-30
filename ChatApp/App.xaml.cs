@@ -1,7 +1,4 @@
-﻿using ChatApp.Pages;
-using ChatApp.Services.Auth;
-
-namespace ChatApp;
+﻿namespace ChatApp;
 
 public partial class App : Application
 {
