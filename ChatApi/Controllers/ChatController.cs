@@ -1,23 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ChatApi.Repos;
 using ChatShared.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChatApi.Controllers;
 
-[Route("api/chats")]
+[Route("api/user/chats")]
 [ApiController]
 public class ChatController : ControllerBase
 {
+  private readonly UserManager<AppUser> _userManager;
   private readonly IChatRepo _chatRepo;
-  public ChatController(IChatRepo chatRepo)
+  public ChatController(UserManager<AppUser> userManager, IChatRepo chatRepo)
   {
+    _userManager = userManager;
     _chatRepo = chatRepo;
   }
 
   [HttpPost]
-  public async Task CreateChat([FromBody] Chat_DTOCreate createChat)
+  [Authorize]
+  public async Task<Guid?> CreateChat([FromBody] Chat_DTOCreate createChat)
   {
-    await _chatRepo.CreateChatAsync(createChat);
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _chatRepo.CreateChatAsync(user, createChat);
   }
 
   [HttpDelete("{chatId}")]

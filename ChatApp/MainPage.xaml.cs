@@ -1,10 +1,10 @@
 ﻿namespace ChatApp
 {
-  public partial class MainPage : ContentPage
+  public partial class Chats : ContentPage
   {
     int count = 0;
 
-    public MainPage()
+    public Chats()
     {
       InitializeComponent();
     }

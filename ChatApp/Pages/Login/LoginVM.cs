@@ -24,7 +24,7 @@ public partial class LoginVM : ObservableObject
     bool result = await _authService.LoginAsync(Email, Password);
     if (result)
     {
-      await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+      await Shell.Current.GoToAsync($"//{nameof(ChatsPage)}");
       return;
     }
     await Shell.Current.DisplayAlert("Error", "Could not log in.", "Close");

@@ -2,29 +2,28 @@
 using ChatApi.Repos;
 using ChatShared.Models;
 
-namespace ChatApi.Controllers
+namespace ChatApi.Controllers;
+
+[Route("api/user/chats/{chatId}/messages")]
+[ApiController]
+public class MessageController : ControllerBase
 {
-  [Route("api/chats/{chatId}/messages")]
-  [ApiController]
-  public class MessageController : ControllerBase
+  private readonly IMessageRepo _messageRepo;
+
+  public MessageController(IMessageRepo messageRepo)
   {
-    private readonly IMessageRepo _messageRepo;
+    _messageRepo = messageRepo;
+  }
 
-    public MessageController(IMessageRepo messageRepo)
-    {
-      _messageRepo = messageRepo;
-    }
+  [HttpPost]
+  public async Task CreateMessageInChat([FromRoute] Guid chatId, [FromBody] Message_DTOCreate createMessage)
+  {
+    await _messageRepo.CreateMessageInChatAsync(chatId, createMessage);
+  }
 
-    [HttpPost]
-    public async Task CreateMessageInChat([FromRoute] Guid chatId, [FromBody] Message_DTOCreate createMessage)
-    {
-      await _messageRepo.CreateMessageInChatAsync(chatId, createMessage);
-    }
-
-    [HttpDelete("{messageId}")]
-    public async Task DeleteMessageInChat([FromRoute] Guid chatId, [FromRoute] int messageId)
-    {
-      await _messageRepo.DeleteMessageInChatAsync(chatId, messageId);
-    }
+  [HttpDelete("{messageId}")]
+  public async Task DeleteMessageInChat([FromRoute] Guid chatId, [FromRoute] int messageId)
+  {
+    await _messageRepo.DeleteMessageInChatAsync(chatId, messageId);
   }
 }

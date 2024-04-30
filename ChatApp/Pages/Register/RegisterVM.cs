@@ -26,7 +26,7 @@ public partial class RegisterVM : ObservableObject
     bool result = await _authService.RegisterAsync(Email, Password);
     if (result)
     {
-      await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+      await Shell.Current.GoToAsync($"//{nameof(Chats)}");
       return;
     }
     await Shell.Current.DisplayAlert("Error", "Could not register.", "Close");

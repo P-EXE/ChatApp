@@ -1,22 +1,19 @@
 ﻿using ChatApp.Pages;
 
-namespace ChatApp;
-
-public partial class AppShell : Shell
+namespace ChatApp
 {
-  public AppShell()
+  public partial class AppShell : Shell
   {
-    InitializeComponent();
+    public AppShell()
+    {
+      InitializeComponent();
 
-    Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
-    Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+      Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
+      Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
-    Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+      Routing.RegisterRoute(nameof(Chats), typeof(Chats));
 
-    Routing.RegisterRoute(nameof(ChatsPage), typeof(ChatsPage));
-    Routing.RegisterRoute(nameof(NewChatPage), typeof(NewChatPage));
-
-    Routing.RegisterRoute(nameof(ContactsPage), typeof(ContactsPage));
-    Routing.RegisterRoute(nameof(NewContactPage), typeof(NewContactPage));
+      Routing.RegisterRoute(nameof(ChatsPage), typeof(ChatsPage));
+    }
   }
 }

@@ -52,7 +52,7 @@ public static class MauiProgram
 
     #region Pages Views Viewmodels
     builder.Services.AddTransient<AppShell>();
-    builder.Services.AddTransient<MainPage>();
+    builder.Services.AddTransient<Chats>();
 
     builder.Services.AddTransient<RegisterPage>();
     builder.Services.AddTransient<RegisterVM>();
