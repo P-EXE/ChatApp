@@ -16,7 +16,6 @@ public class UserRepo : IUserRepo
     _mapper = mapper;
   }
 
-<<<<<<< HEAD
   public async Task<bool> AddContactToUserAsync(Guid userId, Guid contactId)
   {
     AppUser? user = await _context.Users.FindAsync(userId);
@@ -38,7 +37,6 @@ public class UserRepo : IUserRepo
     return users;
   }
 
-=======
   public async Task<AppUser_DTORead1?> GetUserByIdAsync(Guid userId)
   {
     AppUser? user = await _context.Users.FindAsync(userId);

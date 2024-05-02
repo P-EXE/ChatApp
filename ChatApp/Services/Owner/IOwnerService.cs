@@ -1,4 +1,4 @@
-﻿namespace ChatApp.Services.Auth;
+﻿namespace ChatApp.Services;
 
 public interface IOwnerService
 {

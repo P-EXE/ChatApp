@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ChatShared.Models;
 
-namespace ChatApi.Models;
+namespace ChatShared.Maps;
 
 public class Chat_AMProfile : Profile
 {

@@ -4,26 +4,8 @@ namespace ChatApp;
 
 public static class Statics
 {
-  /// <summary>
-  /// The base URI for the Datasync service.
-  /// </summary>
-  public static string ServiceUri = "https://demo-datasync-quickstart.azurewebsites.net";
-
-  /// <summary>
-  /// The application (client) ID for the native app within Microsoft Entra ID
-  /// </summary>
-  public static string ApplicationId = "<client-id>";
-
-  /// <summary>
-  /// The list of scopes to request
-  /// </summary>
-  public static string[] Scopes = new[]
-  {
-    "<scope>"
-  };
-
-  public static string APIRouteBase = "http://localhost:5225/api/";
-  public static BearerToken? BearerToken;
-
-  public static string LocalDBConnection = "Data/ChatApp.db3";
+  public static string RouteBaseHttp = "http://localhost:5225/api/";
+  public static string RouteBaseHttps = "https://localhost:7116/api/";
+  public static string LocalSQLiteConnection = "DataSource=myshareddb;mode=memory;cache=shared";
+  public static BearerToken? BearerToken { get; set; }
 }

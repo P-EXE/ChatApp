@@ -1,14 +1,17 @@
-﻿using ChatShared.Models;
+﻿using ChatApp.DataContexts;
+using ChatShared.Models;
 using System.Diagnostics;
 
-namespace ChatApp.Services.Auth;
+namespace ChatApp.Services;
 
 public class OwnerService : IOwnerService
 {
   private readonly IHttpService _httpService;
-  public OwnerService(IHttpService httpService)
+  private readonly SQLiteDBContext _sqlitedbContext;
+  public OwnerService(IHttpService httpService, SQLiteDBContext sqlitedbContext)
   {
     _httpService = httpService;
+    _sqlitedbContext = sqlitedbContext;
   }
 
   public async Task<bool> RegisterAsync(string email, string password)
@@ -21,7 +24,7 @@ public class OwnerService : IOwnerService
 
   public async Task<bool> LoginAsync(string email, string password)
   {
-        AppUser_DTOCreate createUser = new() { Email = email, Password = password };
+    AppUser_DTOCreate createUser = new() { Email = email, Password = password };
 
     BearerToken? bt = await _httpService.PostAsync<AppUser_DTOCreate, BearerToken>("user/login", createUser);
     if (bt != null)
@@ -29,8 +32,7 @@ public class OwnerService : IOwnerService
       Debug.WriteLine($"==Success==> {nameof(LoginAsync)} : Got {nameof(BearerToken)}");
 
       Statics.BearerToken = bt;
-/*      await SecureStorage.Default.SetAsync("AccessToken", bt.AccessToken);
-      await SecureStorage.Default.SetAsync("RefreshToken", bt.RefreshToken);*/
+      /*_sqlitedbContext.BearerTokens.Add(bt);*/
       return true;
     }
     return false;

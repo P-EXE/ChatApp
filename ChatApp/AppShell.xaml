@@ -22,11 +22,6 @@
   </FlyoutItem>
 
   <TabBar>
-    <!--<Tab Title="Main Page">
-      <ShellContent
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-    </Tab>-->
     <Tab Title="Chats">
       <ShellContent
         ContentTemplate="{DataTemplate pages:ChatsPage}"

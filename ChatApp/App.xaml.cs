@@ -2,17 +2,10 @@
 
 public partial class App : Application
 {
-  public App(IOwnerService authService)
+  public App()
   {
     InitializeComponent();
 
     MainPage = new AppShell();
-
-/*    bool allowAccess = authService.CheckUserLoginStateAsync().Result;
-    if (allowAccess)
-    {
-      Shell.Current.GoToAsync($"//{nameof(ChatsPage)}");
-      return;
-    }*/
   }
 }

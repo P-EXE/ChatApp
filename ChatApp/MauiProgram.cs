@@ -1,12 +1,13 @@
 ﻿using ChatApp.DataContexts;
 using ChatApp.Pages;
 using ChatApp.Services;
-using ChatApp.Services.Auth;
 using ChatApp.ViewModels;
 using ChatApp.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 
 namespace ChatApp;
 
@@ -31,24 +32,20 @@ public static class MauiProgram
     builder.Services.AddTransient<IHttpService, HttpService>();
     builder.Services.AddHttpClient<IHttpService, HttpService>(client =>
     {
-      client.BaseAddress = new Uri(Statics.APIRouteBase);
+      client.BaseAddress = new Uri(Statics.RouteBaseHttp);
     });
     #endregion Services
 
     #region SQLiteDBContext
-    string SQLitePath = Path.Combine(
-      FileSystem.AppDataDirectory,
-      Statics.LocalDBConnection
-    );
-
+    SqliteConnection sqliteConnection = new(Statics.LocalSQLiteConnection);
+    sqliteConnection.Open();
     builder.Services.AddDbContext<SQLiteDBContext>(options =>
-      options.UseSqlite(SQLitePath)
+      options.UseSqlite(sqliteConnection)
     );
     #endregion SQLiteDBContext
 
     #region Pages Views Viewmodels
     builder.Services.AddTransient<AppShell>();
-    builder.Services.AddTransient<Chats>();
 
     builder.Services.AddTransient<RegisterPage>();
     builder.Services.AddTransient<RegisterVM>();

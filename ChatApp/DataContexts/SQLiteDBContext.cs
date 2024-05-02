@@ -6,6 +6,7 @@ namespace ChatApp.DataContexts;
 
 public class SQLiteDBContext : DbContext
 {
+  public DbSet<BearerToken> BearerTokens => Set<BearerToken>();
   public DbSet<AppUser> Users => Set<AppUser>();
   public DbSet<AppOwner> Owner => Set<AppOwner>();
   public DbSet<Chat> Chats => Set<Chat>();
@@ -13,11 +14,17 @@ public class SQLiteDBContext : DbContext
 
   public SQLiteDBContext(DbContextOptions<SQLiteDBContext> options) : base(options)
   {
+    Database.EnsureCreated();
   }
 
   protected override void OnModelCreating(ModelBuilder builder)
   {
     base.OnModelCreating(builder);
+
+    builder.Entity<BearerToken>(b =>
+    {
+      b.HasNoKey();
+    });
 
     builder.Entity<AppUser>(u =>
     {

@@ -1,10 +1,10 @@
-﻿using ChatApi.Models;
-using ChatShared.Models;
+﻿using ChatShared.Models;
 
 namespace ChatApi.Repos;
 
 public interface IMessageRepo
 {
-  Task CreateMessageInChatAsync(Guid chatId, Message_DTOCreate createMessage);
-  Task DeleteMessageInChatAsync(Guid chatId, int messageId);
+  Task CreateMessageInChatAsync(AppUser user, Guid chatId, Message_DTOCreate createMessage);
+  Task DeleteMessageInChatAsync(AppUser user, Guid chatId, int messageId);
+  Task<IEnumerable<Message_DTORead1>?> GetSomeMessagesInChatAsync(Guid chatId, int position);
 }

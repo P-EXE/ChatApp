@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ChatApi.DataContexts;
-using ChatApi.Models;
 using ChatShared.Models;
 
 namespace ChatApi.Repos;
