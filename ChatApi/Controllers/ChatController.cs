@@ -34,10 +34,10 @@ public class ChatController : ControllerBase
 
   [HttpGet]
   [Authorize]
-  public async Task<Chat_DTORead1> CreateChat([FromBody] Chat_DTOCreate createChat)
+  public async Task<IEnumerable<Chat_DTORead1>?> GetChats()
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
-    return await _chatRepo.CreateChatAsync(user, createChat);
+    return await _chatRepo.GetChatsOfUserAsync(user);
   }
 
   [HttpPost("{chatId}/users")]

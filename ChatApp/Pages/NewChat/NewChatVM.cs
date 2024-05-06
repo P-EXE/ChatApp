@@ -15,6 +15,9 @@ public partial class NewChatVM : ObservableObject
   }
 
   [ObservableProperty]
+  private bool _available = true;
+
+  [ObservableProperty]
   private string _name;
   [ObservableProperty]
   private string _description;
@@ -24,12 +27,21 @@ public partial class NewChatVM : ObservableObject
   [RelayCommand]
   private async Task CreateChat()
   {
+    Available = false;
     Chat_DTOCreate createChat = new()
     {
       Name = _name,
       Description = _description,
       UserIds = _members
     };
-    await _chatService.CreateChatAsync(createChat);
+    Guid? chatId = await _chatService.CreateChatAsync(createChat);
+    if (chatId == null) return;
+    await NavToChat(chatId);
+    Available = true;
+  }
+
+  private async Task NavToChat(Guid? chatId)
+  {
+    throw new NotImplementedException();
   }
 }

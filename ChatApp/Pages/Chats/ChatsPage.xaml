@@ -14,7 +14,7 @@
         <CollectionView.ItemTemplate>
           <DataTemplate>
             <SwipeView>
-              <v:ChatV/>
+              <v:ChatListV/>
             </SwipeView>
           </DataTemplate>
         </CollectionView.ItemTemplate>

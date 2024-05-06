@@ -1,5 +1,7 @@
 ﻿using ChatApp.Models;
 using ChatApp.Pages;
+using ChatApp.Services;
+using ChatShared.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -7,18 +9,22 @@ namespace ChatApp.ViewModels;
 
 public partial class ChatsVM : ObservableObject
 {
-  public ChatsVM()
+  private readonly IChatService _chatService;
+  public ChatsVM(IChatService chatService)
   {
+    _chatService = chatService;
+    RefreshChatList();
   }
 
   [ObservableProperty]
-  private List<ChatInfo> _chats;
+  private IEnumerable<Chat_DTORead1>? _chats;
   [ObservableProperty]
   private bool _chatList_isRefreshing;
 
   [RelayCommand]
   private async Task RefreshChatList()
   {
+    Chats = await _chatService.GetChatsAsync();
   }
 
   [RelayCommand]

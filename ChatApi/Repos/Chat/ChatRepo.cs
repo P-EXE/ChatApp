@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ChatApi.DataContexts;
 using ChatShared.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApi.Repos;
 
@@ -32,6 +33,19 @@ public class ChatRepo : IChatRepo
     _context.Chats.Remove(chat);
 
     await _context.SaveChangesAsync();
+  }
+
+  public async Task<IEnumerable<Chat_DTORead1>?> GetChatsOfUserAsync(AppUser user)
+  {
+    IEnumerable<Chat>? chats = _context.Users
+      .Include(u => u.Chats)
+      .Where(u => u.Id == user.Id)
+      .First()
+      .Chats
+      .AsEnumerable();
+
+    IEnumerable<Chat_DTORead1> chats1 = _mapper.Map<IEnumerable<Chat>, IEnumerable<Chat_DTORead1>>(chats);
+    return chats1;
   }
 
   public async Task AddUserToChatAsync(Guid chatId, Guid userId)

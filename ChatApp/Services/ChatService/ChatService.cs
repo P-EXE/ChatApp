@@ -20,4 +20,9 @@ public class ChatService : IChatService
   {
     throw new NotImplementedException();
   }
+
+  public async Task<IEnumerable<Chat_DTORead1>?> GetChatsAsync()
+  {
+    return await _httpService.GetAsync<IEnumerable<Chat_DTORead1>?>("user/chats");
+  }
 }

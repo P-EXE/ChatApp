@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
 
 namespace ChatApp;
 
@@ -33,6 +34,7 @@ public static class MauiProgram
     builder.Services.AddHttpClient<IHttpService, HttpService>(client =>
     {
       client.BaseAddress = new Uri(Statics.RouteBaseHttp);
+      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Statics.BearerToken?.AccessToken ?? "");
     });
     #endregion Services
 
@@ -55,7 +57,7 @@ public static class MauiProgram
 
     builder.Services.AddTransient<ChatsPage>();
     builder.Services.AddTransient<ChatsVM>();
-    builder.Services.AddTransient<ChatV>();
+    builder.Services.AddTransient<ChatListV>();
 
     builder.Services.AddTransient<NewChatPage>();
     builder.Services.AddTransient<NewChatVM>();

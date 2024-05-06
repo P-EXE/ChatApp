@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:ChatShared.Models;assembly=ChatShared"
+             x:Class="ChatApp.Views.ChatListV"
+             x:DataType="m:Chat_DTORead1">
+  <HorizontalStackLayout>
+    <VerticalStackLayout>
+      <Label Text="{Binding Name}"/>
+      <Label Text="{Binding Message}"/>
+      <Label Text="{Binding Id}"/>
+    </VerticalStackLayout>
+    <VerticalStackLayout>
+      <Label Text="2024.05.06"/>
+    </VerticalStackLayout>
+  </HorizontalStackLayout>
+</ContentView>

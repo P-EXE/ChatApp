@@ -6,4 +6,5 @@ public interface IChatService
 {
   Task<Guid?> CreateChatAsync(Chat_DTOCreate createChat);
   Task<Chat> GetChatAsync(Guid chatId);
+  Task<IEnumerable<Chat_DTORead1>?> GetChatsAsync();
 }
