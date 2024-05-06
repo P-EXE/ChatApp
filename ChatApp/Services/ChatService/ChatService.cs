@@ -4,9 +4,16 @@ namespace ChatApp.Services;
 
 public class ChatService : IChatService
 {
-  public Task<Guid> CreateChatAsync()
+  private readonly IHttpService _httpService;
+  public ChatService(IHttpService httpService)
   {
-    throw new NotImplementedException();
+    _httpService = httpService;
+  }
+
+  public async Task<Guid?> CreateChatAsync(Chat_DTOCreate createChat)
+  {
+    await _httpService.PostAsync("user/chats", createChat);
+    return null;
   }
 
   public Task<Chat> GetChatAsync(Guid chatId)

@@ -32,6 +32,14 @@ public class ChatController : ControllerBase
     await _chatRepo.DeleteChatAsync(chatId);
   }
 
+  [HttpGet]
+  [Authorize]
+  public async Task<Chat_DTORead1> CreateChat([FromBody] Chat_DTOCreate createChat)
+  {
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _chatRepo.CreateChatAsync(user, createChat);
+  }
+
   [HttpPost("{chatId}/users")]
   public async Task AddUserToChat([FromRoute] Guid chatId, [FromBody] Guid userId)
   {
