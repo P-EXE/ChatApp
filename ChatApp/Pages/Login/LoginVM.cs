@@ -14,9 +14,9 @@ public partial class LoginVM : ObservableObject
   }
 
   [ObservableProperty]
-  private string _email;
+  private string? _email = Statics.DefaultEmail;
   [ObservableProperty]
-  private string _password;
+  private string? _password = Statics.DefaultPassword;
 
   [RelayCommand]
   public async Task Login()

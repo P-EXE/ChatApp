@@ -59,6 +59,9 @@ public static class MauiProgram
     builder.Services.AddTransient<ChatsVM>();
     builder.Services.AddTransient<ChatListV>();
 
+    builder.Services.AddTransient<ChatPage>();
+    builder.Services.AddTransient<ChatVM>();
+
     builder.Services.AddTransient<NewChatPage>();
     builder.Services.AddTransient<NewChatVM>();
 

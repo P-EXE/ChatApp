@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ChatApp.ViewModels"
+             xmlns:v="clr-namespace:ChatApp.Views"
+             x:Class="ChatApp.Pages.ChatPage">
+  <Grid RowDefinitions="auto,*,auto" VerticalOptions="FillAndExpand">
+    <FlexLayout Grid.Row="0" Direction="Row">
+      <Image FlexLayout.Grow="0" Aspect="Center" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
+      <Label Text="Chat Name" FlexLayout.Grow="1"/>
+      <Button Text=":" FlexLayout.Grow="0" HorizontalOptions="End" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
+    </FlexLayout>
+    <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+      <CollectionView SelectionMode="Multiple"
+                    ItemsSource="{Binding Messages}">
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <SwipeView>
+              <v:ChatListV/>
+            </SwipeView>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+    </ScrollView>
+    <FlexLayout Grid.Row="2" Direction="Row">
+      <Entry Placeholder="Message" FlexLayout.Grow="1"/>
+      <Button Text="📎" FlexLayout.Grow="0" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
+      <Button Text="➤" FlexLayout.Grow="0" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
+    </FlexLayout>
+  </Grid>
+</ContentPage>

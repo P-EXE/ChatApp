@@ -16,20 +16,27 @@ public partial class RegisterVM : ObservableObject
   }
 
   [ObservableProperty]
-  private string? _email;
+  private string? _email = Statics.DefaultEmail;
   [ObservableProperty]
-  private string? _password;
+  private string? _password = Statics.DefaultPassword;
 
   [RelayCommand]
   public async Task Register()
   {
-    bool result = await _authService.RegisterAsync(Email, Password);
-    if (result)
+    bool result = false;
+    result = await _authService.RegisterAsync(Email, Password);
+    if (!result)
     {
-      await Shell.Current.GoToAsync($"//{nameof(ChatsPage)}");
+      await Shell.Current.DisplayAlert("Error", "Could not register.", "Close");
       return;
     }
-    await Shell.Current.DisplayAlert("Error", "Could not register.", "Close");
+    result = await _authService.LoginAsync(Email, Password);
+    if (!result)
+    {
+      await Shell.Current.DisplayAlert("Error", "Could not log in.", "Close");
+      return;
+    }
+    await Shell.Current.GoToAsync($"//{nameof(ChatsPage)}");
     return;
   }
 }

@@ -28,16 +28,20 @@ public partial class NewChatVM : ObservableObject
   private async Task CreateChat()
   {
     Available = false;
+    
     Chat_DTOCreate createChat = new()
     {
       Name = _name,
       Description = _description,
       UserIds = _members
     };
+
     Guid? chatId = await _chatService.CreateChatAsync(createChat);
+    
     if (chatId == null) return;
-    await NavToChat(chatId);
+    
     Available = true;
+    return;
   }
 
   private async Task NavToChat(Guid? chatId)

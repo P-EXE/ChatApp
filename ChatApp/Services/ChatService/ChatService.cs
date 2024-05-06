@@ -12,13 +12,12 @@ public class ChatService : IChatService
 
   public async Task<Guid?> CreateChatAsync(Chat_DTOCreate createChat)
   {
-    await _httpService.PostAsync("user/chats", createChat);
-    return null;
+    return await _httpService.PostAsync<Chat_DTOCreate, Guid?>("user/chats", createChat);
   }
 
-  public Task<Chat> GetChatAsync(Guid chatId)
+  public async Task<Chat?> GetChatAsync(Guid chatId)
   {
-    throw new NotImplementedException();
+    return await _httpService.GetAsync<Chat_DTORead2>($"user/chats/{chatId}");
   }
 
   public async Task<IEnumerable<Chat_DTORead1>?> GetChatsAsync()

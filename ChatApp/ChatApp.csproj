@@ -99,6 +99,9 @@
 	  <MauiXaml Update="Pages\Chats\ChatListV.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Chat\ChatPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Contacts\ContactsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -126,6 +129,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Services\NewFolder\" />
 	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 

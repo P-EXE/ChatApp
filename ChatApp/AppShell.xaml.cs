@@ -11,7 +11,7 @@ namespace ChatApp
       Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
       Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
-      Routing.RegisterRoute(nameof(ChatsPage), typeof(ChatsPage));
+      Routing.RegisterRoute($"{nameof(ChatsPage)}/{nameof(ChatPage)}", typeof(ChatPage));
       Routing.RegisterRoute(nameof(NewChatPage), typeof(NewChatPage));
 
       Routing.RegisterRoute(nameof(ContactsPage), typeof(ContactsPage));

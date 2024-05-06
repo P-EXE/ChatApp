@@ -10,7 +10,10 @@
   </Shell.TitleView>
   <Grid RowDefinitions="*,auto">
     <RefreshView Grid.Row="0" Command="{Binding RefreshChatListCommand}" IsRefreshing="{Binding ChatList_isRefreshing}">
-      <CollectionView ItemsSource="{Binding Chats}">
+      <CollectionView SelectionMode="Single"
+                      ItemsSource="{Binding Chats}"
+                      SelectedItem="{Binding SelectedChat}"
+                      SelectionChangedCommand="{Binding NavToChatCommand}">
         <CollectionView.ItemTemplate>
           <DataTemplate>
             <SwipeView>

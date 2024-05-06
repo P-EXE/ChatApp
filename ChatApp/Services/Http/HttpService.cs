@@ -132,11 +132,11 @@ internal class HttpService : IHttpService
     return false;
   }
 
-  public async Task<T2?> PostAsync<T1, T2>(string route, T1 t1, [CallerMemberName] string caller = "")
+  public async Task<T2?> PostAsync<T1, T2>(string route, T1 input, [CallerMemberName] string caller = "")
   {
     try
     {
-      string json = JsonSerializer.Serialize(t1, _jsonSerializerOptions);
+      string json = JsonSerializer.Serialize(input, _jsonSerializerOptions);
       StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
       HttpResponseMessage response = await _httpClient.PostAsync(route, content);
       if (response.IsSuccessStatusCode)
