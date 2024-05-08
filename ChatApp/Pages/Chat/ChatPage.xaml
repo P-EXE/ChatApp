@@ -7,7 +7,7 @@
   <Grid RowDefinitions="auto,*,auto" VerticalOptions="FillAndExpand">
     <FlexLayout Grid.Row="0" Direction="Row">
       <Image FlexLayout.Grow="0" Aspect="Center" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
-      <Label Text="Chat Name" FlexLayout.Grow="1"/>
+      <Button Text="Chat Name" FlexLayout.Grow="1" Command="{Binding NavToChatDetailsCommand}"/>
       <Button Text=":" FlexLayout.Grow="0" HorizontalOptions="End" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
     </FlexLayout>
     <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">

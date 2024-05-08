@@ -35,16 +35,16 @@ public class ChatRepo : IChatRepo
     await _context.SaveChangesAsync();
   }
 
-  public async Task<IEnumerable<Chat_DTORead1>?> GetChatsOfUserAsync(AppUser user)
+  public async Task<IEnumerable<Chat_DTORead>?> GetChatsOfUserAsync(AppUser user)
   {
     IEnumerable<Chat>? chats = _context.Users
-      .Include(u => u.Chats)
+      .Include(u => u.Chats).ThenInclude(c => c.Users)
       .Where(u => u.Id == user.Id)
       .First()
       .Chats
       .AsEnumerable();
 
-    IEnumerable<Chat_DTORead1> chats1 = _mapper.Map<IEnumerable<Chat>, IEnumerable<Chat_DTORead1>>(chats);
+    IEnumerable<Chat_DTORead> chats1 = _mapper.Map<IEnumerable<Chat>, IEnumerable<Chat_DTORead>>(chats);
     return chats1;
   }
 

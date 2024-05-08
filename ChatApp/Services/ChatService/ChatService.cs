@@ -15,13 +15,13 @@ public class ChatService : IChatService
     return await _httpService.PostAsync<Chat_DTOCreate, Guid?>("user/chats", createChat);
   }
 
-  public async Task<Chat?> GetChatAsync(Guid chatId)
+  public async Task<Chat_DTORead2?> GetChatAsync(Guid chatId)
   {
     return await _httpService.GetAsync<Chat_DTORead2>($"user/chats/{chatId}");
   }
 
-  public async Task<IEnumerable<Chat_DTORead1>?> GetChatsAsync()
+  public async Task<IEnumerable<Chat_DTORead>?> GetChatsAsync()
   {
-    return await _httpService.GetAsync<IEnumerable<Chat_DTORead1>?>("user/chats");
+    return await _httpService.GetAsync<IEnumerable<Chat_DTORead>?>("user/chats");
   }
 }

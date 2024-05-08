@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:m="clr-namespace:ChatShared.Models;assembly=ChatShared"
              x:Class="ChatApp.Views.ChatListV"
-             x:DataType="m:Chat_DTORead1">
+             x:DataType="m:Chat_DTORead">
   <HorizontalStackLayout>
     <VerticalStackLayout>
       <Label Text="{Binding Name}"/>

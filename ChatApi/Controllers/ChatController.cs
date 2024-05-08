@@ -34,7 +34,7 @@ public class ChatController : ControllerBase
 
   [HttpGet]
   [Authorize]
-  public async Task<IEnumerable<Chat_DTORead1>?> GetChats()
+  public async Task<IEnumerable<Chat_DTORead>?> GetChats()
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
     return await _chatRepo.GetChatsOfUserAsync(user);

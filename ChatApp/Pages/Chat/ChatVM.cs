@@ -1,11 +1,13 @@
-﻿using ChatApp.Services;
+﻿using ChatApp.Pages;
+using ChatApp.Services;
 using ChatShared.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 
 namespace ChatApp.ViewModels;
 
-[QueryProperty("Chat", "Chat")]
+[QueryProperty(nameof(Chat), nameof(Chat))]
 public partial class ChatVM : ObservableObject
 {
   private readonly IChatService _chatService;
@@ -37,6 +39,9 @@ public partial class ChatVM : ObservableObject
   [RelayCommand]
   private async Task NavToChatDetails()
   {
-
+    await Shell.Current.GoToAsync(nameof(ChatDetailsPage), true, new Dictionary<string, object>
+    {
+      [nameof(Chat)] = Chat,
+    });
   }
 }

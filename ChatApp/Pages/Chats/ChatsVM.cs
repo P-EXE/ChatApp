@@ -18,9 +18,9 @@ public partial class ChatsVM : ObservableObject
   }
 
   [ObservableProperty]
-  private IEnumerable<Chat_DTORead1>? _chats;
+  private IEnumerable<Chat_DTORead>? _chats;
   [ObservableProperty]
-  private Chat_DTORead1? _selectedChat;
+  private Chat_DTORead? _selectedChat;
   [ObservableProperty]
   private bool _chatList_isRefreshing;
 
@@ -39,10 +39,9 @@ public partial class ChatsVM : ObservableObject
   [RelayCommand]
   private async Task NavToChat()
   {
-    Chat? chat = await _chatService.GetChatAsync(SelectedChat.Id);
     await Shell.Current.GoToAsync(nameof(ChatPage), true, new Dictionary<string, object>
     {
-      [nameof(Chat)] = chat,
+      [nameof(Chat)] = SelectedChat,
     });
     SelectedChat = null;
   }
