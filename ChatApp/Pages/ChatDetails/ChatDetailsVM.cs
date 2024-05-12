@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ChatApp.ViewModels;
 
-[QueryProperty(nameof(Chat_DTORead2), nameof(Chat))]
+[QueryProperty(nameof(Chat), nameof(Chat))]
 public partial class ChatDetailsVM : ObservableObject
 {
 
@@ -12,5 +12,5 @@ public partial class ChatDetailsVM : ObservableObject
   }
 
   [ObservableProperty]
-  private Chat_DTORead2? _chat; 
+  private Chat_DTORead? _chat; 
 }

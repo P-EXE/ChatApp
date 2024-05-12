@@ -1,10 +1,8 @@
-﻿using ChatApp.Models;
-using ChatApp.Pages;
+﻿using ChatApp.Pages;
 using ChatApp.Services;
 using ChatShared.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Diagnostics;
 
 namespace ChatApp.ViewModels;
 
@@ -17,6 +15,8 @@ public partial class ChatsVM : ObservableObject
     RefreshChatList();
   }
 
+  [ObservableProperty]
+  private IEnumerable<Chat_DTORead>? _chatPreviews;
   [ObservableProperty]
   private IEnumerable<Chat_DTORead>? _chats;
   [ObservableProperty]
@@ -44,5 +44,10 @@ public partial class ChatsVM : ObservableObject
       [nameof(Chat)] = SelectedChat,
     });
     SelectedChat = null;
+  }
+
+  private async Task GenerateChatPreviews()
+  {
+
   }
 }
