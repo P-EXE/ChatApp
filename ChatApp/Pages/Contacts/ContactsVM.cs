@@ -12,11 +12,14 @@ public partial class ContactsVM : ObservableObject
   private bool _contactsList_isRefreshing;
   [RelayCommand]
   private async Task RefreshContactsList()
-  { 
+  {
   }
   [RelayCommand]
   private async Task AddContact()
   {
-    await Shell.Current.GoToAsync(nameof(NewContactPage));
+    await Shell.Current.GoToAsync(nameof(UserSearchPage), true, new Dictionary<string, object>
+    {
+      { "PageMode", UserSearchVM.PageMode.Details }
+    });
   }
 }

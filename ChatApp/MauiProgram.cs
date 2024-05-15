@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
 
 namespace ChatApp;
@@ -58,14 +57,10 @@ public static class MauiProgram
     builder.Services.AddTransient<ChatsPage>();
     builder.Services.AddTransient<ChatsVM>();
     builder.Services.AddTransient<ChatListV>();
-
     builder.Services.AddTransient<ChatPage>();
     builder.Services.AddTransient<ChatVM>();
     builder.Services.AddTransient<ChatDetailsPage>();
     builder.Services.AddTransient<ChatDetailsVM>();
-
-    builder.Services.AddTransient<NewChatPage>();
-    builder.Services.AddTransient<NewChatVM>();
 
     builder.Services.AddTransient<ContactsPage>();
     builder.Services.AddTransient<ContactsVM>();
@@ -74,8 +69,8 @@ public static class MauiProgram
     builder.Services.AddTransient<UserProfilePage>();
     builder.Services.AddTransient<UserProfileVM>();
 
-    builder.Services.AddTransient<NewContactPage>();
-    builder.Services.AddTransient<NewContactVM>();
+    builder.Services.AddTransient<UserSearchPage>();
+    builder.Services.AddTransient<UserSearchVM>();
     #endregion Pages Views Viewmodels
 
 #if DEBUG

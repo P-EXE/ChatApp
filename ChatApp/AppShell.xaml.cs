@@ -12,12 +12,11 @@ namespace ChatApp
       Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
       Routing.RegisterRoute($"{nameof(ChatsPage)}/{nameof(ChatPage)}", typeof(ChatPage));
-      Routing.RegisterRoute(nameof(NewChatPage), typeof(NewChatPage));
+      Routing.RegisterRoute($"{nameof(ChatsPage)}/{nameof(ChatDetailsPage)}", typeof(ChatDetailsPage));
+      Routing.RegisterRoute($"{nameof(ChatDetailsPage)}/{nameof(UserSearchPage)}", typeof(UserSearchPage));
 
-      Routing.RegisterRoute(nameof(ContactsPage), typeof(ContactsPage));
-      Routing.RegisterRoute(nameof(NewContactPage), typeof(NewContactPage));
-
-      Routing.RegisterRoute(nameof(UserProfilePage), typeof(UserProfilePage));
+      Routing.RegisterRoute($"{nameof(ContactsPage)}/{nameof(UserSearchPage)}", typeof(UserSearchPage));
+      Routing.RegisterRoute($"{nameof(ContactsPage)}/{nameof(UserSearchPage)}/{nameof(UserProfilePage)}", typeof(UserProfilePage));
     }
   }
 }

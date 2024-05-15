@@ -5,8 +5,8 @@
              xmlns:vm="clr-namespace:ChatApp.ViewModels"
              xmlns:v="clr-namespace:ChatApp.Views"
              xmlns:m="clr-namespace:ChatShared.Models;assembly=ChatShared"
-             x:Class="ChatApp.Pages.NewContactPage"
-             x:DataType="vm:NewContactVM">
+             x:Class="ChatApp.Pages.UserSearchPage"
+             x:DataType="vm:UserSearchVM">
   <Grid RowDefinitions="auto, *">
     <SearchBar Grid.Row="0" Text="{Binding SearchText}">
       <SearchBar.Behaviors>
@@ -21,7 +21,7 @@
       SelectionMode="Single"
       ItemsSource="{Binding Users}"
       SelectedItem="{Binding SelectedUser}"
-      SelectionChangedCommand="{Binding ShowDetailsCommand}">
+      SelectionChangedCommand="{Binding SelectedCommand}">
       <CollectionView.ItemTemplate>
         <DataTemplate>
           <SwipeView>

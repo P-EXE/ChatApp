@@ -5,18 +5,15 @@ namespace ChatApp.Services;
 
 public class ContactService : IContactService
 {
-  private readonly IHttpClientFactory _httpClientFactory;
-  public ContactService(IHttpClientFactory httpClientFactory)
+  private readonly IHttpService _httpService;
+  public ContactService(IHttpService httpService)
   {
-    _httpClientFactory = httpClientFactory;
+    _httpService = httpService;
   }
 
   public async Task<IEnumerable<AppUser>?> GetUsersByNameAsync(string userName)
   {
-    HttpClient httpClient = _httpClientFactory.CreateClient("DefaultClient");
-    IHttpService httpService = new HttpService(httpClient);
-
-    IEnumerable<AppUser>? users = await httpService.GetAsync<IEnumerable<AppUser>?>(
+    IEnumerable<AppUser>? users = await _httpService.GetAsync<IEnumerable<AppUser>?>(
         $"users",
         new Dictionary<string, string>()
         {

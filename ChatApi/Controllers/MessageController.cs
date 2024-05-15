@@ -37,7 +37,7 @@ public class MessageController : ControllerBase
 
   [HttpGet]
   [Authorize]
-  public async Task<IEnumerable<Message_DTORead1>?> GetSomeMessagesInChat([FromRoute] Guid chatId, [FromQuery] int position)
+  public async Task<IEnumerable<Message_DTORead>?> GetSomeMessagesInChat([FromRoute] Guid chatId, [FromQuery] int position)
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
     return await _messageRepo.GetSomeMessagesInChatAsync(chatId, position);

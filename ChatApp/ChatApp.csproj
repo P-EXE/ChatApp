@@ -108,16 +108,13 @@
 	  <MauiXaml Update="Pages\Contacts\ContactsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\Contacts\ContactV.xaml">
+	  <MauiXaml Update="Views\ContactV.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Login\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\NewChat\NewChatPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\NewContact\NewContactPage.xaml">
+	  <MauiXaml Update="Pages\UserSearch\UserSearchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Register\RegisterPage.xaml">
@@ -139,6 +136,9 @@
 	<ItemGroup>
 	  <Compile Update="Pages\Chats\ChatListV.xaml.cs">
 	    <DependentUpon>ChatListV.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\UserSearch\UserSearchPage.xaml.cs">
+	    <DependentUpon>UserSearchPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 

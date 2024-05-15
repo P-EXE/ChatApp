@@ -33,7 +33,7 @@ public partial class ChatsVM : ObservableObject
   [RelayCommand]
   private async Task CreateNewChat()
   {
-    await Shell.Current.GoToAsync(nameof(NewChatPage));
+    await Shell.Current.GoToAsync(nameof(ChatDetailsPage));
   }
 
   [RelayCommand]

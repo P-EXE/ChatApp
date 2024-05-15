@@ -54,7 +54,7 @@ public class MessageRepo : IMessageRepo
     await _context.SaveChangesAsync();
   }
 
-  public async Task<IEnumerable<Message_DTORead1>?> GetSomeMessagesInChatAsync(Guid chatId, int position)
+  public async Task<IEnumerable<Message_DTORead>?> GetSomeMessagesInChatAsync(Guid chatId, int position)
   {
     int pageSize = 10;
     IEnumerable<Message>? messages = _context.Chats
@@ -64,7 +64,7 @@ public class MessageRepo : IMessageRepo
       .Skip(pageSize * position)
       .Take(pageSize)
       .AsEnumerable();
-    IEnumerable<Message_DTORead1>? messagesDTO = _mapper.Map<IEnumerable<Message>?, IEnumerable<Message_DTORead1>?>(messages);
+    IEnumerable<Message_DTORead>? messagesDTO = _mapper.Map<IEnumerable<Message>?, IEnumerable<Message_DTORead>?>(messages);
     return messagesDTO;
   }
 }
