@@ -33,7 +33,10 @@ public partial class ChatsVM : ObservableObject
   [RelayCommand]
   private async Task CreateNewChat()
   {
-    await Shell.Current.GoToAsync(nameof(ChatDetailsPage));
+    await Shell.Current.GoToAsync(nameof(ChatDetailsPage), true, new Dictionary<string, object>
+    {
+      { "PageMode", ChatDetailsVM.PageMode.New }
+    });
   }
 
   [RelayCommand]
@@ -41,7 +44,7 @@ public partial class ChatsVM : ObservableObject
   {
     await Shell.Current.GoToAsync(nameof(ChatPage), true, new Dictionary<string, object>
     {
-      [nameof(Chat)] = SelectedChat,
+      [nameof(Chat)] = SelectedChat
     });
     SelectedChat = null;
   }

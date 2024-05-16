@@ -12,10 +12,10 @@
       <Button Text="Add Member" Command="{Binding NavToUserSearchPageCommand}"/>
     </VerticalStackLayout>
     <ScrollView Grid.Row="1">
-      <CollectionView ItemsSource="{Binding Chat.Users}">
+      <CollectionView ItemsSource="{Binding Members}">
         <CollectionView.ItemTemplate>
           <DataTemplate>
-            <Label Text="Member"/>
+            <!--<Label Text="Member"/>-->
             <v:ContactV/>
           </DataTemplate>
         </CollectionView.ItemTemplate>
