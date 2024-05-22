@@ -1,41 +1,37 @@
 ﻿using ChatApi.Repos;
 using Microsoft.AspNetCore.Mvc;
 using ChatShared.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChatApi.Controllers;
 
-[Route("api/users")]
+[Route("api/user")]
 [ApiController]
 public class UserController : ControllerBase
 {
+  private readonly UserManager<AppUser> _userManager;
   private readonly IUserRepo _userRepo;
 
-  public UserController(IUserRepo userRepo)
+  public UserController(UserManager<AppUser> userManager, IUserRepo userRepo)
   {
+    _userManager = userManager;
     _userRepo = userRepo;
   }
 
-  [HttpGet("{userId}")]
-  public async Task<AppUser_DTORead1?> GetUserById([FromRoute] Guid userId)
-  {
-    return await _userRepo.GetUserByIdAsync(userId);
-  }
-
+  [Authorize]
   [HttpGet]
-  public async Task<IEnumerable<AppUser_DTORead1>?> GetUsersByName([FromQuery] string name)
+  public async Task<AppUser?> GetSelf()
   {
-    return await _userRepo.GetUsersByNameAsync(name);
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _userRepo.GetSelfAsync(user);
   }
 
-  [HttpPost("{userId}/contacts")]
-  public async Task GetContactsOfUser([FromRoute] Guid userId, [FromBody] Guid contactId)
+  [Authorize]
+  [HttpGet("chats")]
+  public async Task<IEnumerable<Chat_Read>?> GetOwnChats()
   {
-    await _userRepo.AddContactToUserAsync(userId, contactId);
-  }
-
-  [HttpGet("{userId}/contacts")]
-  public async Task<IEnumerable<AppUser>?> GetContactsOfUser([FromRoute] Guid userId)
-  {
-    return await _userRepo.GetContactsOfUserAsync(userId);
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _userRepo.GetUsersChatsAsync(user);
   }
 }

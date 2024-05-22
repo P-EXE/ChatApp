@@ -3,13 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:ChatApp.ViewModels"
              xmlns:v="clr-namespace:ChatApp.Views"
-             x:Class="ChatApp.Pages.ChatPage">
+             x:Class="ChatApp.Pages.ChatPage"
+             x:DataType="vm:ChatVM">
+  <Shell.TitleView>
+    <HorizontalStackLayout>
+      <Image MinimumWidthRequest="{Binding Source={RelativeSource Self}, Path=Height}" HorizontalOptions="Start"/>
+      <Button Grid.Column="0" Text="{Binding Chat.Name}" HorizontalOptions="StartAndExpand" Style="{StaticResource Button-Header}" Command="{Binding NavToChatDetailsCommand}"/>
+    </HorizontalStackLayout>
+  </Shell.TitleView>
   <Grid RowDefinitions="auto,*,auto" VerticalOptions="FillAndExpand">
-    <FlexLayout Grid.Row="0" Direction="Row">
-      <Image FlexLayout.Grow="0" Aspect="Center" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
-      <Button Text="Chat Name" FlexLayout.Grow="1" Command="{Binding NavToChatDetailsCommand}"/>
-      <Button Text=":" FlexLayout.Grow="0" HorizontalOptions="End" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
-    </FlexLayout>
     <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
       <CollectionView SelectionMode="Multiple"
                     ItemsSource="{Binding Messages}">
@@ -22,10 +24,10 @@
         </CollectionView.ItemTemplate>
       </CollectionView>
     </ScrollView>
-    <FlexLayout Grid.Row="2" Direction="Row">
-      <Entry Placeholder="Message" FlexLayout.Grow="1"/>
-      <Button Text="📎" FlexLayout.Grow="0" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
-      <Button Text="➤" FlexLayout.Grow="0" WidthRequest="{Binding Source={RelativeSource Self}, Path=Height}"/>
+    <FlexLayout Grid.Row="2" HorizontalOptions="FillAndExpand" MaximumHeightRequest="200">
+      <Editor Placeholder="Message" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" FlexLayout.Grow="1" AutoSize="TextChanges" MaximumHeightRequest="200" Style="{StaticResource Editor-MessageBox}" Text="{Binding Message.Text}"/>
+      <Button Text="📎" HorizontalOptions="End" VerticalOptions="End" MaximumHeightRequest="50" MaximumWidthRequest="50" MinimumWidthRequest="{Binding Source={RelativeSource Self}, Path=Height}" Style="{StaticResource Button-Default}"/>
+      <Button Text="➤" HorizontalOptions="End" VerticalOptions="End" MaximumHeightRequest="50" MaximumWidthRequest="50" MinimumWidthRequest="{Binding Source={RelativeSource Self}, Path=Height}" Style="{StaticResource Button-Default}" Command="{Binding SendMessageCommand}"/>
     </FlexLayout>
   </Grid>
 </ContentPage>

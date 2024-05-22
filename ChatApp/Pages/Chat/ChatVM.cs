@@ -3,37 +3,50 @@ using ChatApp.Services;
 using ChatShared.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
+using System.Collections.ObjectModel;
 
 namespace ChatApp.ViewModels;
 
-[QueryProperty(nameof(Chat), nameof(Chat))]
+[QueryProperty("Chat", nameof(Chat))]
 public partial class ChatVM : ObservableObject
 {
-  private readonly IChatService _chatService;
-  public ChatVM(IChatService chatService)
+  private readonly IMessageService _messageService;
+  public ChatVM(IMessageService messageService)
   {
-    _chatService = chatService;
+    _messageService = messageService;
   }
 
   [ObservableProperty]
-  private Chat _chat;
-
+  private Chat_DTORead _chat;
   [ObservableProperty]
-  private IEnumerable<Message>? _messages;
+  private ObservableCollection<Message> _messages = new();
+  [ObservableProperty]
+  private Message_DTOCreate _message = new();
+
   [ObservableProperty]
   private int _position = 0;
 
   [RelayCommand]
   private async Task GetMessages()
   {
+    List<Message>? messagesOld = Messages.ToList();
 
+    IEnumerable<Message>? messagesNew;
+    messagesNew = await _messageService.GetMessagesOfChatAsync(Chat.Id.ToString(), Position);
+
+    messagesOld.AddRange(messagesNew);
+
+    Messages = new(messagesOld);
   }
 
   [RelayCommand]
   private async Task SendMessage()
   {
-
+    Message_DTOCreate createMessage = new()
+    {
+      Text = Message.Text
+    };
+    await _messageService.SendMessageToChatAsync(Chat.Id.ToString(), createMessage);
   }
 
   [RelayCommand]
@@ -41,7 +54,8 @@ public partial class ChatVM : ObservableObject
   {
     await Shell.Current.GoToAsync(nameof(ChatDetailsPage), true, new Dictionary<string, object>
     {
-      [nameof(Chat)] = Chat,
+      { "Chat", Chat },
+      { "PageMode", ChatDetailsVM.PageMode.View }
     });
   }
 }

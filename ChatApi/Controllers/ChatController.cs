@@ -5,8 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace ChatApi.Controllers;
-
-[Route("api/user/chats")]
+/// <summary>
+/// Controller for Chat Entities
+/// F*ck DTOs
+/// F*ck Routes
+/// </summary>
+[Route("api/chat")]
 [ApiController]
 public class ChatController : ControllerBase
 {
@@ -18,37 +22,36 @@ public class ChatController : ControllerBase
     _chatRepo = chatRepo;
   }
 
+  [Authorize]
   [HttpPost]
-  [Authorize]
-  public async Task<Guid?> CreateChat([FromBody] Chat_DTOCreate createChat)
+  public async Task<Chat_Read?> CreateChat([FromBody] Chat_Create chat)
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
-    return await _chatRepo.CreateChatAsync(user, createChat);
+    return await _chatRepo.CreateChatAsync(chat);
   }
 
-  [HttpDelete("{chatId}")]
-  public async Task DeleteChat([FromRoute] Guid chatId)
-  {
-    await _chatRepo.DeleteChatAsync(chatId);
-  }
 
-  [HttpGet]
   [Authorize]
-  public async Task<IEnumerable<Chat_DTORead>?> GetChats()
+  [HttpGet("{id}")]
+  public async Task<Chat_Read?> GetChat([FromRoute] Guid id)
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
-    return await _chatRepo.GetChatsOfUserAsync(user);
+    return await _chatRepo.ReadChatAsync(id);
   }
 
-  [HttpPost("{chatId}/users")]
-  public async Task AddUserToChat([FromRoute] Guid chatId, [FromBody] Guid userId)
+  [Authorize]
+  [HttpPut]
+  public async Task<Chat_Read?> UpdateChat([FromBody] Chat_Edit chat)
   {
-    await _chatRepo.AddUserToChatAsync(chatId, userId);
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _chatRepo.UpdateChatAsync(chat);
   }
 
-  [HttpDelete("{chatId}/users")]
-  public async Task RemoveUserFromChat([FromRoute] Guid chatId, [FromBody] Guid userId)
+  [Authorize]
+  [HttpDelete("{id}")]
+  public async Task<bool> DeleteChat([FromRoute] Guid id)
   {
-    await _chatRepo.RemoveUserFromChatAsync(chatId, userId);
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _chatRepo.DeleteChatAsync(id);
   }
 }

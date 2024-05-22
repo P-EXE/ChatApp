@@ -1,9 +1,12 @@
-namespace ChatApp.Pages.Settings;
+namespace ChatApp.Pages;
 
 public partial class SettingsPage : ContentPage
 {
-	public SettingsPage()
+	private readonly SettingsVM _vm;
+	public SettingsPage(SettingsVM vm)
 	{
+		_vm = vm;
+		BindingContext = _vm;
 		InitializeComponent();
 	}
 }

@@ -8,7 +8,7 @@
              x:Class="ChatApp.Pages.UserSearchPage"
              x:DataType="vm:UserSearchVM">
   <Grid RowDefinitions="auto, *">
-    <SearchBar Grid.Row="0" Text="{Binding SearchText}">
+    <SearchBar Grid.Row="0" Text="{Binding SearchText}" Placeholder="Search Username">
       <SearchBar.Behaviors>
         <toolkit:EventToCommandBehavior
           EventName="TextChanged"

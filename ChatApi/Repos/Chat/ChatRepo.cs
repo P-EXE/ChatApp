@@ -2,6 +2,7 @@
 using ChatApi.DataContexts;
 using ChatShared.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace ChatApi.Repos;
 
@@ -17,60 +18,108 @@ public class ChatRepo : IChatRepo
     _mapper = mapper;
   }
 
-  public async Task<Guid?> CreateChatAsync(AppUser user, Chat_DTOCreate createChat)
+  /// Creates a Chat, adds Chat to affected Users, returns created Chat
+  public async Task<Chat_Read?> CreateChatAsync(Chat_Create createChat)
   {
-    Chat? chat = _mapper.Map<Chat_DTOCreate, Chat>(createChat);
-    chat.Users.Add(user);
+    Chat chat = _mapper.Map<Chat>(createChat);
+
     _context.Chats.Add(chat);
-    await _context.SaveChangesAsync();
-    return chat.Id;
+
+    foreach (Guid userId in createChat.UserIds)
+    {
+      AppUser? foundUser = await _context.Users.FindAsync(userId);
+      foundUser?.Chats.Add(chat);
+      try
+      {
+        _context.Users.Update(foundUser);
+      }
+      catch (Exception ex)
+      {
+        Debug.WriteLine($"==EXCEPTION==> {nameof(ChatRepo)} / {nameof(CreateChatAsync)} : User could not be updated!");
+        return null;
+      }
+    }
+
+    _context.SaveChanges();
+    Chat? createdChat = await _context.Chats.FindAsync(chat.Id);
+    Chat_Read returnChat = _mapper.Map<Chat_Read>(createdChat);
+
+    return returnChat;
   }
 
-  public async Task DeleteChatAsync(Guid chatId)
+  public async Task<Chat_Read?> ReadChatAsync(Guid id)
   {
-    Chat? chat = await _context.Chats.FindAsync(chatId);
-
-    _context.Chats.Remove(chat);
-
-    await _context.SaveChangesAsync();
+    throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Chat_DTORead>?> GetChatsOfUserAsync(AppUser user)
+  public async Task<Chat_Read?> UpdateChatAsync(Chat_Edit updateChat)
   {
-    IEnumerable<Chat>? chats = _context.Users
-      .Include(u => u.Chats).ThenInclude(c => c.Users)
-      .Where(u => u.Id == user.Id)
-      .First()
-      .Chats
-      .AsEnumerable();
+    Chat? chat = await _context.Chats
+      .Include(c => c.Users)
+      .Where(c => c.Id == updateChat.Id)
+      .FirstAsync();
 
-    IEnumerable<Chat_DTORead> chats1 = _mapper.Map<IEnumerable<Chat>, IEnumerable<Chat_DTORead>>(chats);
-    return chats1;
+    List<AppUser> oldUsers = chat.Users.ToList();
+    // Remove removed users
+    foreach (AppUser user in oldUsers)
+    {
+      if (!updateChat.UserIds.Contains(user.Id))
+      {
+        chat.Users.Remove(user);
+        _context.Users
+          .Include(u => u.Chats)
+          .Where(u => u.Id == user.Id)
+          .First()
+          .Chats
+          .Remove(chat);
+      }
+    }
+
+    // Add added users
+    foreach (Guid userId in updateChat.UserIds)
+    {
+      AppUser? user = await _context.Users.FindAsync(userId);
+      if (!chat.Users.Contains(user))
+      {
+        chat.Users.Add(user);
+        _context.Users
+          .Include(u => u.Chats)
+          .Where(u => u.Id == user.Id)
+          .First()
+          .Chats
+          .Add(chat);
+      }
+    }
+
+    chat.Name = updateChat.Name;
+    chat.Description = updateChat.Description;
+    await _context.SaveChangesAsync();
+
+    return _mapper.Map<Chat_Read>(chat);
   }
 
-  public async Task AddUserToChatAsync(Guid chatId, Guid userId)
+  public async Task<bool> DeleteChatAsync(Guid id)
   {
-    Chat? chat = await _context.Chats.FindAsync(chatId);
-    AppUser? user = await _context.Users.FindAsync(userId);
+    Chat? deleteChat = _context.Chats.Find(id);
 
-    chat.Users.Add(user);
+    foreach (AppUser chatUser in deleteChat.Users)
+    {
+      AppUser? foundUser = await _context.Users.FindAsync(chatUser);
+      foundUser?.Chats.Remove(deleteChat);
+      try
+      {
+        _context.Users.Update(foundUser);
+      }
+      catch (Exception ex)
+      {
+        Debug.WriteLine($"==EXCEPTION==> {nameof(ChatRepo)} / {nameof(DeleteChatAsync)} : User could not be updated!");
+        return false;
+      }
+    }
 
-    _context.Chats.Update(chat);
-    _context.Users.Update(user);
+    _context.Chats.Remove(deleteChat);
+    _context.SaveChanges();
 
-    await _context.SaveChangesAsync();
-  }
-
-  public async Task RemoveUserFromChatAsync(Guid chatId, Guid userId)
-  {
-    Chat? chat = await _context.Chats.FindAsync(chatId);
-    AppUser? user = await _context.Users.FindAsync(userId);
-
-    chat.Users.Remove(user);
-
-    _context.Update(chat);
-    _context.Update(user);
-
-    await _context.SaveChangesAsync();
+    return true;
   }
 }

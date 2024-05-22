@@ -73,6 +73,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
+	  <None Remove="Platforms\Windows\App.xaml.cs.bak" />
+	  <None Remove="Resources\Styles\Colors.xaml.bak" />
+	  <None Remove="Resources\Styles\Styles.xaml.bak" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
@@ -129,8 +136,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Services\NewFolder\" />
 	  <Folder Include="ViewModels\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Include="Resources\Styles\Colors.xaml.bak">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Include="Resources\Styles\Styles.xaml.bak">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -5,9 +5,14 @@
              Shell.FlyoutBehavior="Disabled"
              x:Class="ChatApp.Pages.LoginPage"
              x:DataType="vm:LoginVM">
-  <VerticalStackLayout>
-    <Entry Text="{Binding Email}" Placeholder="Email"/>
-    <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True"/>
-    <Button Text="Log In" Command="{Binding LoginCommand}"/>
-  </VerticalStackLayout>
+  <Grid>
+    <Border Style="{StaticResource Border-Default}" Margin="20" Background="#04ffffff" VerticalOptions="Start" Padding="0,10">
+      <VerticalStackLayout Spacing="10">
+        <Entry Text="{Binding Email}" Placeholder="Email" Style="{StaticResource Entry-Default}" Margin="10,0"/>
+        <BoxView Background="{StaticResource BackgroundDark1}" HeightRequest="2"/>
+        <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" Style="{StaticResource Entry-Default}" Margin="10,0"/>
+      </VerticalStackLayout>
+    </Border>
+    <Button Text="Log In" Command="{Binding LoginCommand}"  Style="{StaticResource Button-Default}" VerticalOptions="End" Margin="20"/>
+  </Grid>
 </ContentPage>

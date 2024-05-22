@@ -5,4 +5,18 @@
     xmlns:maui="using:Microsoft.Maui"
     xmlns:local="using:ChatApp.WinUI">
 
+  <maui:MauiWinUIApplication.Resources>
+    <ResourceDictionary>
+      <SolidColorBrush x:Key="TextControlBorderBrush" Opacity="0"/>
+      <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Opacity="0"/>
+      <SolidColorBrush x:Key="TextControlBorderBrushFocused" Opacity="0"/>
+      <SolidColorBrush x:Key="TextControlBorderBrushDisabled" Opacity="0"/>
+
+      <SolidColorBrush x:Key="ComboBoxBorderBrush" Opacity="0"/>
+      <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Opacity="0"/>
+      <SolidColorBrush x:Key="ComboBoxBorderBrushPressed" Opacity="0"/>
+      <SolidColorBrush x:Key="ComboBoxBorderBrushDisabled" Opacity="0"/>
+    </ResourceDictionary>
+  </maui:MauiWinUIApplication.Resources>
+
 </maui:MauiWinUIApplication>

@@ -17,6 +17,8 @@ namespace ChatApp
 
       Routing.RegisterRoute($"{nameof(ContactsPage)}/{nameof(UserSearchPage)}", typeof(UserSearchPage));
       Routing.RegisterRoute($"{nameof(ContactsPage)}/{nameof(UserSearchPage)}/{nameof(UserProfilePage)}", typeof(UserProfilePage));
+
+      Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
     }
   }
 }

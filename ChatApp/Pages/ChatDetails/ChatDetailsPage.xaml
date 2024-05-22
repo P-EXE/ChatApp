@@ -5,21 +5,39 @@
              xmlns:v="clr-namespace:ChatApp.Views"
              x:Class="ChatApp.Pages.ChatDetailsPage"
              x:DataType="vm:ChatDetailsVM">
-  <Grid RowDefinitions="auto,*">
-    <VerticalStackLayout Grid.Row="0">
-      <Entry Text="{Binding Chat.Name}" Placeholder="Name"/>
-      <Entry Text="{Binding Chat.Description}" Placeholder="Description"/>
-      <Button Text="Add Member" Command="{Binding NavToUserSearchPageCommand}"/>
-    </VerticalStackLayout>
-    <ScrollView Grid.Row="1">
-      <CollectionView ItemsSource="{Binding Members}">
-        <CollectionView.ItemTemplate>
-          <DataTemplate>
-            <!--<Label Text="Member"/>-->
-            <v:ContactV/>
-          </DataTemplate>
-        </CollectionView.ItemTemplate>
-      </CollectionView>
-    </ScrollView>
+  <Grid>
+    <Grid RowDefinitions="auto,auto,*" Margin="0,0,0,10" RowSpacing="10">
+      <Grid Grid.Row="0" MaximumHeightRequest="200">
+        <Image/>
+        <Grid>
+          <Button Text="Edit" Style="{StaticResource Button-New}"/>
+        </Grid>
+      </Grid>
+      <Border Grid.Row="1" Style="{StaticResource Border-Default}" Margin="10,0,10,0">
+        <VerticalStackLayout Spacing="{StaticResource Spacing}">
+          <Label Text="{Binding Chat.Name}" IsVisible="{Binding ViewMode}" Margin="10,0"/>
+          <Entry Text="{Binding Chat.Name}" Placeholder="Name" IsVisible="{Binding EditMode}" Margin="10,0"/>
+          <BoxView Background="{StaticResource BackgroundDark2}" HeightRequest="{StaticResource Thickness}"/>
+          <Label Text="{Binding Chat.Description}" IsVisible="{Binding ViewMode}" Margin="10,0"/>
+          <Entry Text="{Binding Chat.Description}" Placeholder="Description" IsVisible="{Binding EditMode}" Margin="10,0"/>
+        </VerticalStackLayout>
+      </Border>
+      <Border Grid.Row="2" Style="{StaticResource Border-Default}" Margin="10,0,10,0">
+        <VerticalStackLayout Spacing="{StaticResource Spacing}">
+          <Button Text="+" Command="{Binding NavToUserSearchPageCommand}" Style="{StaticResource Button-Default}" Margin="10,0"/>
+          <BoxView Background="{StaticResource BackgroundDark2}" HeightRequest="{StaticResource Thickness}"/>
+          <ScrollView Margin="10">
+            <CollectionView ItemsSource="{Binding Members}">
+              <CollectionView.ItemTemplate>
+                <DataTemplate>
+                  <v:ContactV/>
+                </DataTemplate>
+              </CollectionView.ItemTemplate>
+            </CollectionView>
+          </ScrollView>
+        </VerticalStackLayout>
+      </Border>
+    </Grid>
+    <Button Text="Create Chat" Command="{Binding CreateChatCommand}" IsVisible="{Binding EditMode}" Style="{StaticResource Button-Default}" VerticalOptions="End" Margin="20"/>
   </Grid>
 </ContentPage>

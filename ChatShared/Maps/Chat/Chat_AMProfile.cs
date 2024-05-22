@@ -7,7 +7,8 @@ public class Chat_AMProfile : Profile
 {
   public Chat_AMProfile()
   {
-    CreateMap<Chat_DTOCreate, Chat>();
-    CreateMap<Chat, Chat_DTORead>();
+    CreateMap<Chat_Create, Chat>();
+    CreateMap<Chat_Edit, Chat>();
+    CreateMap<Chat, Chat_Read>();
   }
 }

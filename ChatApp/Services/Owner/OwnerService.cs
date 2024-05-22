@@ -33,6 +33,9 @@ public class OwnerService : IOwnerService
 
       Statics.BearerToken = bt;
       /*_sqlitedbContext.BearerTokens.Add(bt);*/
+
+/*      Statics.AppOwner = new() { UserName = createUser.Email };
+      await _sqlitedbContext.Owner.AddAsync(Statics.AppOwner);*/
       return true;
     }
     return false;

@@ -32,6 +32,11 @@
         ContentTemplate="{DataTemplate pages:ContactsPage}"
         Route="ContactsPage" />
     </Tab>
+    <Tab Title="Settings">
+      <ShellContent
+        ContentTemplate="{DataTemplate pages:SettingsPage}"
+        Route="SettingsPage" />
+    </Tab>
   </TabBar>
 
 </Shell>

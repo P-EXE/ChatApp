@@ -3,6 +3,7 @@ using ChatApp.Services;
 using ChatShared.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace ChatApp.ViewModels;
 
@@ -16,18 +17,19 @@ public partial class ChatsVM : ObservableObject
   }
 
   [ObservableProperty]
-  private IEnumerable<Chat_DTORead>? _chatPreviews;
+  private ObservableCollection<Chat_DTORead>? _chatPreviews = new();
   [ObservableProperty]
-  private IEnumerable<Chat_DTORead>? _chats;
+  private ObservableCollection<Chat_DTORead>? _chats = new();
   [ObservableProperty]
-  private Chat_DTORead? _selectedChat;
+  private Chat_DTORead _selectedChat;
   [ObservableProperty]
   private bool _chatList_isRefreshing;
 
   [RelayCommand]
   private async Task RefreshChatList()
   {
-    Chats = await _chatService.GetChatsAsync();
+    IEnumerable<Chat_DTORead>? chats = await _chatService.GetChatsAsync();
+    Chats = new(chats);
   }
 
   [RelayCommand]
@@ -44,7 +46,7 @@ public partial class ChatsVM : ObservableObject
   {
     await Shell.Current.GoToAsync(nameof(ChatPage), true, new Dictionary<string, object>
     {
-      [nameof(Chat)] = SelectedChat
+      { "Chat", SelectedChat }
     });
     SelectedChat = null;
   }

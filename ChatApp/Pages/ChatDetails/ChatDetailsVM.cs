@@ -1,19 +1,24 @@
 ﻿using ChatApp.Messaging;
+using ChatApp.Models;
 using ChatApp.Pages;
+using ChatApp.Services;
 using ChatShared.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Collections.ObjectModel;
 
 namespace ChatApp.ViewModels;
 
-[QueryProperty(nameof(Chat), nameof(Chat))]
+[QueryProperty("Chat", nameof(Chat))]
 [QueryProperty(nameof(ActivePageMode), nameof(PageMode))]
 public partial class ChatDetailsVM : ObservableObject
 {
-
-  public ChatDetailsVM()
+  private readonly IChatService _chatService;
+  public ChatDetailsVM(IChatService chatService)
   {
+    _chatService = chatService;
+
     WeakReferenceMessenger.Default.Register<PageReturnObjectMessage<AppUser>>(this, (r, m) =>
     {
       AddMember(m.Value);
@@ -28,6 +33,10 @@ public partial class ChatDetailsVM : ObservableObject
         break;
       case PageMode.View:
         {
+          Members = new(Chat.Users);
+          _memberIds = new();
+          EditMode = false;
+          ViewMode = true;
           break;
         }
       case PageMode.Edit:
@@ -36,7 +45,11 @@ public partial class ChatDetailsVM : ObservableObject
         }
       case PageMode.New:
         {
+          Chat = new();
           Members = new();
+          _memberIds = new();
+          EditMode = true;
+          ViewMode = false;
           break;
         }
     }
@@ -44,17 +57,28 @@ public partial class ChatDetailsVM : ObservableObject
 
   [ObservableProperty]
   private int _activePageMode;
+  [ObservableProperty]
+  private bool _editMode;
+  [ObservableProperty]
+  private bool _viewMode;
+
 
   [ObservableProperty]
   private Chat_DTORead _chat;
-
   [ObservableProperty]
-  private List<AppUser> _members;
+  private ObservableCollection<AppUser> _members;
+  private List<Guid> _memberIds;
 
+  [RelayCommand]
   private async Task AddMember(AppUser member)
   {
-    if (!Members.Contains(member))
-      Members.Add(member);
+    if (member.UserName == Statics.AppOwner?.UserName) return;
+    foreach (AppUser m in Members)
+    {
+      if (m.UserName == member.UserName) return;
+    }
+    Members.Add(member);
+    _memberIds.Add(member.Id);
   }
 
   [RelayCommand]
@@ -64,6 +88,18 @@ public partial class ChatDetailsVM : ObservableObject
     {
       { "PageMode", UserSearchVM.PageMode.Return }
     });
+  }
+
+  [RelayCommand]
+  private async Task CreateChat()
+  {
+    Chat_DTOCreate createChat = new()
+    {
+      Name = Chat.Name,
+      Description = Chat.Description,
+      UserIds = _memberIds
+    };
+    await _chatService.CreateChatAsync(createChat);
   }
 
   public enum PageMode

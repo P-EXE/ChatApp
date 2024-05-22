@@ -16,40 +16,22 @@ public class UserRepo : IUserRepo
     _mapper = mapper;
   }
 
-  public async Task<bool> AddContactToUserAsync(Guid userId, Guid contactId)
+  public async Task<AppUser?> GetSelfAsync(AppUser? user)
   {
-    AppUser? user = await _context.Users.FindAsync(userId);
-    AppUser? contact = await _context.Users.FindAsync(contactId);
-    user.Contacts.Add(contact);
-    _context.Users.Update(user);
-    await _context.SaveChangesAsync();
-    return true;
+    if(user == null) return null;
+    return await _context.Users.FindAsync(user.Id);
   }
 
-  public async Task<IEnumerable<AppUser>?> GetContactsOfUserAsync(Guid userId)
+  public async Task<IEnumerable<Chat_Read>?> GetUsersChatsAsync(AppUser user)
   {
-    IEnumerable<AppUser>? users = _context.Users
-      .Include(u => u.Contacts)
-      .Where(u => u.Equals(userId))
+    IEnumerable<Chat>? chats = _context.Users
+      .Include(u => u.Chats).ThenInclude(c => c.Users)
+      .Where(u => u == user)
       .First()
-      .Contacts
+      .Chats
       .AsEnumerable();
-    return users;
-  }
+    IEnumerable<Chat_Read>? returnChats = _mapper.Map<IEnumerable<Chat_Read>>(chats);
 
-  public async Task<AppUser_DTORead1?> GetUserByIdAsync(Guid userId)
-  {
-    AppUser? user = await _context.Users.FindAsync(userId);
-    AppUser_DTORead1? usersDTORead1 = _mapper.Map<AppUser, AppUser_DTORead1>(user);
-    return usersDTORead1;
-  }
-
-  public async Task<IEnumerable<AppUser_DTORead1>?> GetUsersByNameAsync(string userName)
-  {
-    IEnumerable<AppUser>? users = _context.Users
-      .Where(u => u.UserName.StartsWith(userName))
-      .AsEnumerable();
-    IEnumerable<AppUser_DTORead1>? usersDTORead1 = _mapper.Map<IEnumerable<AppUser>, IEnumerable<AppUser_DTORead1>>(users);
-    return usersDTORead1;
+    return returnChats;
   }
 }

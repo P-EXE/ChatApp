@@ -5,10 +5,7 @@
              xmlns:v="clr-namespace:ChatApp.Views"
              x:Class="ChatApp.Pages.ContactsPage"
              x:DataType="vm:ContactsVM">
-  <Shell.TitleView>
-    <Button Text="Refresh" Command="{Binding RefreshContactsListCommand}"/>
-  </Shell.TitleView>
-  <Grid RowDefinitions="*,auto">
+  <Grid>
     <RefreshView Grid.Row="0" Command="{Binding RefreshContactsListCommand}" IsRefreshing="{Binding ContactsList_isRefreshing}">
       <CollectionView ItemsSource="{Binding Contacts}">
         <CollectionView.ItemTemplate>
@@ -20,6 +17,6 @@
         </CollectionView.ItemTemplate>
       </CollectionView>
     </RefreshView>
-    <Button Grid.Row="1" Text="Add Contact" Command="{Binding AddContactCommand}"/>
+    <Button Grid.Row="1" Text="+" Command="{Binding AddContactCommand}" Style="{StaticResource Button-New}"/>
   </Grid>
 </ContentPage>

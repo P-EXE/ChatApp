@@ -42,11 +42,11 @@ public class Program
     #endregion Sqlite in Memory
 
     #region SQLServer
-    /*    builder.Services.AddDbContext<SQLDBContext>(options =>
-          options.UseSqlServer(
-            builder.Configuration.GetConnectionString("ChatDB-SQLConnection")
-          )
-        );*/
+    builder.Services.AddDbContext<SQLDBContext>(options =>
+       options.UseSqlServer(
+         builder.Configuration.GetConnectionString("ChatDB-SQLConnection")
+       )
+     );
     #endregion SQLServer
 
     builder.Services.AddAuthorization();
