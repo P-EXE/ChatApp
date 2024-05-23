@@ -2,7 +2,7 @@
 
 namespace ChatShared.Models;
 
-public class AppUser_DTORead1
+public class AppUser_Read
 {
   public string? DisplayName { get; set; }
   public string? UserName { get; set; }

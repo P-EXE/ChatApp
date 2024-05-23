@@ -5,11 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace ChatApi.Controllers;
-/// <summary>
-/// Controller for Chat Entities
-/// F*ck DTOs
-/// F*ck Routes
-/// </summary>
 [Route("api/chat")]
 [ApiController]
 public class ChatController : ControllerBase
@@ -30,7 +25,6 @@ public class ChatController : ControllerBase
     return await _chatRepo.CreateChatAsync(chat);
   }
 
-
   [Authorize]
   [HttpGet("{id}")]
   public async Task<Chat_Read?> GetChat([FromRoute] Guid id)
@@ -41,7 +35,7 @@ public class ChatController : ControllerBase
 
   [Authorize]
   [HttpPut]
-  public async Task<Chat_Read?> UpdateChat([FromBody] Chat_Edit chat)
+  public async Task<Chat_Read?> UpdateChat([FromBody] Chat_Update chat)
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
     return await _chatRepo.UpdateChatAsync(chat);

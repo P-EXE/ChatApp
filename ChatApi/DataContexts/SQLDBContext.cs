@@ -24,27 +24,25 @@ public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
     {
       u.HasKey(u => u.Id);
 
-      u.HasMany(u => u.Contacts)
-      .WithMany();
-      
       u.HasMany(u => u.Chats)
-      .WithMany(c => c.Users);
-    });
-
-    builder.Entity<Chat>(c =>
-    {
-      c.HasKey(c => c.Id);
-      
-      c.HasMany(c => c.Users)
-      .WithMany(c => c.Chats);
-      
-      c.HasMany(c => c.Messages)
-      .WithOne(m => m.Chat);
+      .WithMany(c => c.Users)
+      .UsingEntity<Dictionary<Guid, object>>(
+                "UserChat",
+                j => j
+                    .HasOne<Chat>()
+                    .WithMany()
+                    .HasForeignKey("ChatId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => j
+                    .HasOne<AppUser>()
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade));
     });
 
     builder.Entity<Message>(m =>
     {
-      m.HasKey(m => new {m.ChatId, m.MessageId});
+      m.HasKey(m => new { m.ChatId, m.MessageId });
 
       m.HasOne(m => m.Sender);
 
