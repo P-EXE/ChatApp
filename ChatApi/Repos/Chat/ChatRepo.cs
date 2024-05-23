@@ -93,11 +93,11 @@ public class ChatRepo : IChatRepo
 
   public async Task<bool> DeleteChatAsync(Guid id)
   {
-    return false;
+    throw new NotImplementedException();
   }
 
   public async Task<IEnumerable<Chat>?> ReadAllChatsAsync()
   {
-    return null;
+    throw new NotImplementedException();
   }
 }

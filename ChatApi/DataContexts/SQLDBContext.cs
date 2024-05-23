@@ -42,12 +42,17 @@ public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
 
     builder.Entity<Message>(m =>
     {
-      m.HasKey(m => new { m.ChatId, m.MessageId });
+      m.HasKey(m => new { m.UserId, m.ChatId, m.MessageId });
 
-      m.HasOne(m => m.Sender);
+      m.HasOne(m => m.User)
+      .WithMany(u => u.Messages)
+      .HasForeignKey(m => m.UserId)
+      .OnDelete(DeleteBehavior.Cascade);
 
       m.HasOne(m => m.Chat)
-      .WithMany(c => c.Messages);
+      .WithMany(c => c.Messages)
+      .HasForeignKey(m => m.ChatId)
+      .OnDelete(DeleteBehavior.Cascade);
     });
   }
 }
