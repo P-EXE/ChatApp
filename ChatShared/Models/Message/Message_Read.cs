@@ -1,6 +1,6 @@
 ﻿namespace ChatShared.Models;
 
-public class Message_DTORead
+public class Message_Read
 {
   public Guid ChatId { get; set; }
   public Guid SenderId { get; set; }

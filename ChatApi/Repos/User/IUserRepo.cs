@@ -4,6 +4,6 @@ namespace ChatApi.Repos;
 
 public interface IUserRepo
 {
-  Task<AppUser?> GetSelfAsync(AppUser? user);
+  Task<AppUser_Read?> GetSelfAsync(AppUser? user);
   Task<IEnumerable<Chat_Read>?> GetUsersChatsAsync(AppUser user);
 }

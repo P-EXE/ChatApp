@@ -18,11 +18,15 @@ public class UserRepo : IUserRepo
     _mapper = mapper;
   }
 
-  public async Task<AppUser?> GetSelfAsync(AppUser? user)
+  public async Task<AppUser_Read?> GetSelfAsync(AppUser? user)
   {
     if (user == null) return null;
-    return await _context.Users.FindAsync(user.Id);
+    user = await _context.Users
+      .Include(u => u.Chats).Include(u => u.Messages)
+      .FirstAsync(u => u.Id == user.Id);
+    return _mapper.Map<AppUser_Read>(user);
   }
+
   /// <summary>
   /// Get the Chats a User is part of.
   /// Includes other Users in this Chat.

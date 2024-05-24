@@ -21,7 +21,7 @@ public class UserController : ControllerBase
 
   [Authorize]
   [HttpGet]
-  public async Task<AppUser?> GetSelf()
+  public async Task<AppUser_Read?> GetSelf()
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
     return await _userRepo.GetSelfAsync(user);

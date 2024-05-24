@@ -15,7 +15,7 @@ public class MessageService : IMessageService
     return await _httpService.GetAsync<IEnumerable<Message>>($"user/chats/{chatId}/messages?position={position}");
   }
 
-  public async Task SendMessageToChatAsync(string chatId, Message_DTOCreate message)
+  public async Task SendMessageToChatAsync(string chatId, Message_Create message)
   {
     await _httpService.PostAsync($"user/chats/{chatId}/messages", message);
   }
