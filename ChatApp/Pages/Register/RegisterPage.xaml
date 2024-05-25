@@ -6,13 +6,20 @@
              x:Class="ChatApp.Pages.RegisterPage"
              x:DataType="vm:RegisterVM">
   <Grid>
-    <Border Style="{StaticResource Border-Default}" Margin="20" Background="#04ffffff" VerticalOptions="Start" Padding="0,10">
-      <VerticalStackLayout Spacing="10">
-        <Entry Text="{Binding Email}" Placeholder="Email" Style="{StaticResource Entry-Default}" Margin="10,0"/>
-        <BoxView Background="{StaticResource BackgroundDark1}" HeightRequest="2"/>
-        <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" Style="{StaticResource Entry-Default}" Margin="10,0"/>
+    
+    <Border>
+      <VerticalStackLayout>
+        <Entry Text="{Binding Email}"
+               Placeholder="Email"/>
+        <Entry Text="{Binding Password}"
+               Placeholder="Password" 
+               IsPassword="True"/>
       </VerticalStackLayout>
     </Border>
-    <Button Text="Register" Command="{Binding RegisterCommand}" Style="{StaticResource Button-Default}" VerticalOptions="End" Margin="20"/>
+    
+    <Button Text="Register"
+            Command="{Binding RegisterCommand}"
+            VerticalOptions="End"/>
+    
   </Grid>
 </ContentPage>

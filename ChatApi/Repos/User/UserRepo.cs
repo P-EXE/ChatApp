@@ -18,20 +18,32 @@ public class UserRepo : IUserRepo
     _mapper = mapper;
   }
 
-  public async Task<AppUser?> GetSelfAsync(AppUser? user)
+  #region Self
+  public async Task<AppUser_Read?> GetSelfPublicAsync(AppUser? user)
+  {
+    if (user == null) return null;
+    AppUser? retUser = await _context.Users.FindAsync(user.Id);
+    return _mapper.Map<AppUser_Read>(retUser);
+  }
+  public async Task<AppUser?> GetSelfPrivateAsync(AppUser? user)
   {
     if (user == null) return null;
     return await _context.Users.FindAsync(user.Id);
   }
-  /// <summary>
-  /// Get the Chats a User is part of.
-  /// Includes other Users in this Chat.
-  /// </summary>
-  /// <param name="user">The User which Chats will be evaluated</param>
-  /// <returns></returns>
+  #endregion Self
+
+  public async Task<IEnumerable<AppUser_Read>?> GetUsersByNameAsync(string userName)
+  {
+    IEnumerable<AppUser>? users = _context.Users
+      .Where(u => u.UserName.StartsWith(userName))
+      .AsEnumerable();
+
+    return _mapper.Map<IEnumerable<AppUser_Read>?>(users);
+  }
+
   public async Task<IEnumerable<Chat_Read>?> GetUsersChatsAsync(AppUser user)
   {
-    IEnumerable<Chat> chats = _context.Users
+    IEnumerable<Chat_API> chats = _context.Users
       .Include(u => u.Chats).ThenInclude(c => c.Users)
       .Where(u => u.Id == user.Id)
       .First()

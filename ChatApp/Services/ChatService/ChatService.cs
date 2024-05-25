@@ -13,19 +13,13 @@ public class ChatService : IChatService
     _mapper = mapper;
   }
 
-  public async Task<Guid?> CreateChatAsync(Chat_DTOCreate createChat)
+  public async Task<Chat_Read?> CreateChatAsync(Chat_Create createChat)
   {
-    return await _httpService.PostAsync<Chat_DTOCreate, Guid?>("user/chats", createChat);
+    return await _httpService.PostAsync<Chat_Create, Chat_Read?>("user/chats", createChat);
   }
 
-  public async Task<Guid?> CreateChatAsync(Chat createChat)
+  public async Task<List<Chat_Read>?> GetChatsAsync()
   {
-    Chat_DTOCreate chat = _mapper.Map<Chat, Chat_DTOCreate>(createChat);
-    return await CreateChatAsync(chat);
-  }
-
-  public async Task<IEnumerable<Chat_DTORead>?> GetChatsAsync()
-  {
-    return await _httpService.GetAsync<IEnumerable<Chat_DTORead>?>("user/chats");
+    return await _httpService.GetAsync<List<Chat_Read>?>("user/chats");
   }
 }

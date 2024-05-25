@@ -19,7 +19,7 @@ public partial class ContactsVM : ObservableObject
   {
     await Shell.Current.GoToAsync(nameof(UserSearchPage), true, new Dictionary<string, object>
     {
-      { "PageMode", UserSearchVM.PageMode.Details }
+      { "PageMode", UserSearchVM.PageMode.View }
     });
   }
 }

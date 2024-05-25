@@ -6,7 +6,9 @@
              x:Class="ChatApp.Pages.ChatsPage"
              x:DataType="vm:ChatsVM">
   <Grid>
-    <RefreshView Grid.Row="0" Command="{Binding RefreshChatListCommand}" IsRefreshing="{Binding ChatList_isRefreshing}">
+    
+    <RefreshView Command="{Binding RefreshChatListCommand}"
+                 IsRefreshing="{Binding ChatList_isRefreshing}">
       <CollectionView SelectionMode="Single"
                       ItemsSource="{Binding Chats}"
                       SelectedItem="{Binding SelectedChat}"
@@ -20,6 +22,10 @@
         </CollectionView.ItemTemplate>
       </CollectionView>
     </RefreshView>
-    <Button Grid.Row="1" Text="+" Command="{Binding CreateNewChatCommand}" Style="{StaticResource Button-New}"/>
+    
+    <Button Text="+"
+            Command="{Binding CreateNewChatCommand}"
+            VerticalOptions="End"/>
+    
   </Grid>
 </ContentPage>

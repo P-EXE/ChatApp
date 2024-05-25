@@ -20,11 +20,11 @@ public class ChatRepo : IChatRepo
 
   public async Task<Chat_Read?> CreateChatAsync(Chat_Create createChat)
   {
-    Chat chat;
+    Chat_API chat;
     AppUser? user;
 
     // Create the Chat and Save it
-    chat = _mapper.Map<Chat_Create, Chat>(createChat);
+    chat = _mapper.Map<Chat_Create, Chat_API>(createChat);
     await _context.Chats.AddAsync(chat);
 
     // Find all affected Users
@@ -49,7 +49,7 @@ public class ChatRepo : IChatRepo
 
   public async Task<Chat_Read?> UpdateChatAsync(Chat_Update updateChat)
   {
-    Chat? chat;
+    Chat_API? chat;
     AppUser? user;
     List<AppUser> oldUsers = new();
     List<AppUser> newUsers = new();
@@ -96,7 +96,7 @@ public class ChatRepo : IChatRepo
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Chat>?> ReadAllChatsAsync()
+  public async Task<IEnumerable<Chat_API>?> ReadAllChatsAsync()
   {
     throw new NotImplementedException();
   }

@@ -13,5 +13,5 @@ public interface IChatRepo
   Task<bool> DeleteChatAsync(Guid id);
 
   // Debuging
-  Task<IEnumerable<Chat>?> ReadAllChatsAsync();
+  Task<IEnumerable<Chat_API>?> ReadAllChatsAsync();
 }

@@ -2,8 +2,7 @@
 
 namespace ChatApp.Services;
 
-public interface IContactService
+public interface IUserService
 {
   Task<IEnumerable<AppUser>?> GetUsersByNameAsync(string userName);
-  Task<bool> AddUserToContacts(string userId);
 }

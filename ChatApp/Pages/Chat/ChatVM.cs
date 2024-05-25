@@ -17,7 +17,7 @@ public partial class ChatVM : ObservableObject
   }
 
   [ObservableProperty]
-  private Chat_DTORead _chat;
+  private Chat_Read _chat;
   [ObservableProperty]
   private ObservableCollection<Message> _messages = new();
   [ObservableProperty]

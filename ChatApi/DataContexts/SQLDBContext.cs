@@ -8,7 +8,7 @@ namespace ChatApi.DataContexts;
 public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
 {
 
-  public DbSet<Chat> Chats => Set<Chat>();
+  public DbSet<Chat_API> Chats => Set<Chat_API>();
   public DbSet<Message> Messages => Set<Message>();
 
   public SQLDBContext(DbContextOptions<SQLDBContext> options) : base(options)
@@ -29,7 +29,7 @@ public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
       .UsingEntity<Dictionary<Guid, object>>(
                 "UserChat",
                 j => j
-                    .HasOne<Chat>()
+                    .HasOne<Chat_API>()
                     .WithMany()
                     .HasForeignKey("ChatId")
                     .OnDelete(DeleteBehavior.Cascade),

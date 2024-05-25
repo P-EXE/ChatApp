@@ -8,8 +8,8 @@ namespace ChatApp.ViewModels;
 [QueryProperty("User", "User")]
 public partial class UserProfileVM : ObservableObject
 {
-  private readonly IContactService _contactService;
-  public UserProfileVM(IContactService contactService)
+  private readonly IUserService _contactService;
+  public UserProfileVM(IUserService contactService)
   {
     _contactService = contactService;
   }
@@ -20,6 +20,6 @@ public partial class UserProfileVM : ObservableObject
   [RelayCommand]
   private async Task AddToContacts()
   {
-    _ = await _contactService.AddUserToContacts(User.Id.ToString());
+    throw new NotImplementedException();
   }
 }

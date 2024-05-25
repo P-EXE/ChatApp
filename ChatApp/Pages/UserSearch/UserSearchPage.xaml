@@ -8,20 +8,21 @@
              x:Class="ChatApp.Pages.UserSearchPage"
              x:DataType="vm:UserSearchVM">
   <Grid RowDefinitions="auto, *">
-    <SearchBar Grid.Row="0" Text="{Binding SearchText}" Placeholder="Search Username">
+    
+    <SearchBar Grid.Row="0"
+               Text="{Binding SearchText}"
+               Placeholder="Search Username">
       <SearchBar.Behaviors>
-        <toolkit:EventToCommandBehavior
-          EventName="TextChanged"
-          Command="{Binding SearchCommand}"
-          />
+        <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                        Command="{Binding SearchCommand}"/>
       </SearchBar.Behaviors>
     </SearchBar>
-    <CollectionView
-      Grid.Row="1"
-      SelectionMode="Single"
-      ItemsSource="{Binding Users}"
-      SelectedItem="{Binding SelectedUser}"
-      SelectionChangedCommand="{Binding SelectedCommand}">
+    
+    <CollectionView Grid.Row="1"
+                    SelectionMode="Single"
+                    ItemsSource="{Binding Users}"
+                    SelectedItem="{Binding SelectedUser}"
+                    SelectionChangedCommand="{Binding UserSelectedCommand}">
       <CollectionView.ItemTemplate>
         <DataTemplate>
           <SwipeView>
@@ -30,5 +31,6 @@
         </DataTemplate>
       </CollectionView.ItemTemplate>
     </CollectionView>
+    
   </Grid>
 </ContentPage>

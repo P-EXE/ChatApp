@@ -28,7 +28,7 @@ public static class MauiProgram
 
     #region Services
     builder.Services.AddTransient<IOwnerService, OwnerService>();
-    builder.Services.AddTransient<IContactService, ContactService>();
+    builder.Services.AddTransient<IUserService, UserService>();
     builder.Services.AddTransient<IChatService, ChatService>();
     builder.Services.AddTransient<IMessageService, MessageService>();
     builder.Services.AddTransient<IHttpService, HttpService>();

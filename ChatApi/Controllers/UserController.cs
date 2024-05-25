@@ -19,12 +19,37 @@ public class UserController : ControllerBase
     _userRepo = userRepo;
   }
 
+  #region Self
   [Authorize]
-  [HttpGet]
-  public async Task<AppUser?> GetSelf()
+  [HttpGet("self/reflect")]
+  public async Task<AppUser?> Reflect()
+  {
+    return await _userManager.GetUserAsync(HttpContext.User);
+  }
+
+  [Authorize]
+  [HttpGet("self/public")]
+  public async Task<AppUser_Read?> GetSelfPublic()
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
-    return await _userRepo.GetSelfAsync(user);
+    return await _userRepo.GetSelfPublicAsync(user);
+  }
+
+  [Authorize]
+  [HttpGet("self/private")]
+  public async Task<AppUser?> GetSelfPrivate()
+  {
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _userRepo.GetSelfPrivateAsync(user);
+  }
+  #endregion Self
+
+  [Authorize]
+  [HttpGet]
+  public async Task<IEnumerable<AppUser_Read>?> GetUserByName([FromQuery] string userName)
+  {
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _userRepo.GetUsersByNameAsync(userName);
   }
 
   [Authorize]

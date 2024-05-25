@@ -18,6 +18,6 @@ public class MessageRepo : IMessageRepo
 
   public async Task<Message?> CreateMessageInChatAsync(Message message)
   {
-
+    throw new NotImplementedException();
   }
 }

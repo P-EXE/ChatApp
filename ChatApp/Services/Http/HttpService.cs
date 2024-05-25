@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace ChatApp.Services;
 
-internal class HttpService : IHttpService
+internal class HttpService : IHttpService, IDisposable
 {
   private readonly HttpClient _httpClient;
   private readonly JsonSerializerOptions _jsonSerializerOptions;
@@ -158,5 +158,10 @@ internal class HttpService : IHttpService
       Debug.WriteLine($"               {ex}");
     }
     return default(T2?);
+  }
+
+  public void Dispose()
+  {
+    throw new NotImplementedException();
   }
 }

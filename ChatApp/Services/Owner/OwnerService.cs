@@ -1,4 +1,5 @@
 ﻿using ChatApp.DataContexts;
+using ChatApp.Models;
 using ChatShared.Models;
 using System.Diagnostics;
 
@@ -30,14 +31,14 @@ public class OwnerService : IOwnerService
     if (bt != null)
     {
       Debug.WriteLine($"==Success==> {nameof(LoginAsync)} : Got {nameof(BearerToken)}");
+      Statics.AppOwner = await _httpService.GetAsync<AppUser>("user/self/private") as AppOwner;
 
       Statics.BearerToken = bt;
       /*_sqlitedbContext.BearerTokens.Add(bt);*/
-
-/*      Statics.AppOwner = new() { UserName = createUser.Email };
-      await _sqlitedbContext.Owner.AddAsync(Statics.AppOwner);*/
       return true;
     }
+
+    
     return false;
   }
 

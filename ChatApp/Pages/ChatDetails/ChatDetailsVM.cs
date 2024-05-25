@@ -15,6 +15,16 @@ namespace ChatApp.ViewModels;
 public partial class ChatDetailsVM : ObservableObject
 {
   private readonly IChatService _chatService;
+
+  /// <summary>
+  /// Switch between Page Modes and set bool values for the View
+  /// </summary>
+  [ObservableProperty]
+  private int _activePageMode;
+  [ObservableProperty]
+  private bool _pageModeEdit;
+  public bool PageModeView => !PageModeEdit;
+
   public ChatDetailsVM(IChatService chatService)
   {
     _chatService = chatService;
@@ -25,81 +35,74 @@ public partial class ChatDetailsVM : ObservableObject
     });
   }
 
-  async partial void OnActivePageModeChanged(int pageMode)
+  [ObservableProperty]
+  private Chat_MAUI _chat = new();
+
+  // Set Page Mode
+  async partial void OnActivePageModeChanged(int newPageMode)
   {
-    switch ((PageMode)pageMode)
+    switch ((PageMode)newPageMode)
     {
-      default:
-        break;
-      case PageMode.View:
+      case PageMode.Edit:
         {
-          Members = new(Chat.Users);
-          _memberIds = new();
-          EditMode = false;
-          ViewMode = true;
+          PageModeEdit = true;
           break;
         }
+      case PageMode.New:
+        {
+          PageModeEdit = true;
+          break;
+        }
+    }
+  }
+
+  #region Create or Modify Chat
+  [RelayCommand]
+  public async Task SaveChatChanges()
+  {
+    switch ((PageMode)ActivePageMode)
+    {
       case PageMode.Edit:
         {
           break;
         }
       case PageMode.New:
         {
-          Chat = new();
-          Members = new();
-          _memberIds = new();
-          EditMode = true;
-          ViewMode = false;
           break;
         }
     }
   }
 
-  [ObservableProperty]
-  private int _activePageMode;
-  [ObservableProperty]
-  private bool _editMode;
-  [ObservableProperty]
-  private bool _viewMode;
-
-
-  [ObservableProperty]
-  private Chat_DTORead _chat;
-  [ObservableProperty]
-  private ObservableCollection<AppUser> _members;
-  private List<Guid> _memberIds;
-
-  [RelayCommand]
-  private async Task AddMember(AppUser member)
+  private async Task CreateChat()
   {
-    if (member.UserName == Statics.AppOwner?.UserName) return;
-    foreach (AppUser m in Members)
+    throw new NotImplementedException();
+  }
+
+  private async Task UpdateChat()
+  {
+    throw new NotImplementedException();
+  }
+  #endregion Create or Modify Chat
+
+  private async void AddMember(AppUser user)
+  {
+    if (user.Id == Statics.AppOwner?.Id)
     {
-      if (m.UserName == member.UserName) return;
+      return;
     }
-    Members.Add(member);
-    _memberIds.Add(member.Id);
+    if (!Chat.Users.Any(u => u.Id == user.Id))
+    {
+      Chat.Users.Add(user);
+    }
   }
 
   [RelayCommand]
-  private async Task NavToUserSearchPage()
+  public async Task NavToUserSearchPage()
   {
-    await Shell.Current.GoToAsync(nameof(UserSearchPage), true, new Dictionary<string, object>
+    await Shell.Current.GoToAsync($"{nameof(UserSearchPage)}", true, new Dictionary<string, object>
     {
       { "PageMode", UserSearchVM.PageMode.Return }
     });
-  }
-
-  [RelayCommand]
-  private async Task CreateChat()
-  {
-    Chat_DTOCreate createChat = new()
-    {
-      Name = Chat.Name,
-      Description = Chat.Description,
-      UserIds = _memberIds
-    };
-    await _chatService.CreateChatAsync(createChat);
   }
 
   public enum PageMode
