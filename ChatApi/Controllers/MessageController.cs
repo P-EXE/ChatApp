@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ChatApi.Controllers;
 
-[Route("api/chat/{chatId}")]
+[Route("api/chat/messages")]
 [ApiController]
 public class MessageController : ControllerBase
 {
@@ -19,5 +19,27 @@ public class MessageController : ControllerBase
     _messageRepo = messageRepo;
   }
 
+  [HttpPost]
+  [Authorize]
+  public async Task CreateMessageInChat([FromBody] Message_Create createMessage)
+  {
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    await _messageRepo.CreateMessageInChatAsync(createMessage);
+  }
 
+  [HttpDelete("{id}")]
+  [Authorize]
+  public async Task DeleteMessageInChat([FromRoute] Guid chatId, [FromRoute] int id)
+  {
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    await _messageRepo.DeleteMessageInChatAsync(user, chatId, id);
+  }
+
+  [HttpGet]
+  [Authorize]
+  public async Task<IEnumerable<Message_Read>?> GetSomeMessagesInChat([FromRoute] Guid chatId, [FromQuery] int position)
+  {
+    AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
+    return await _messageRepo.GetSomeMessagesInChatAsync(chatId, position);
+  }
 }

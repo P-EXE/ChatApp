@@ -7,7 +7,7 @@ public class Message_AMProfile : Profile
 {
   public Message_AMProfile()
   {
-    CreateMap<Message, Message_DTOCreate>();
-    CreateMap<Message, Message_DTORead>();
+    CreateMap<Message, Message_Create>();
+    CreateMap<Message, Message_Read>();
   }
 }

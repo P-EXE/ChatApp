@@ -28,7 +28,10 @@ public class UserRepo : IUserRepo
   public async Task<AppUser?> GetSelfPrivateAsync(AppUser? user)
   {
     if (user == null) return null;
-    return await _context.Users.FindAsync(user.Id);
+    user = await _context.Users
+      .Include(u => u.Chats).Include(u => u.Messages)
+      .FirstAsync(u => u.Id == user.Id);
+    return _mapper.Map<AppUser_Read>(user);
   }
   #endregion Self
 
