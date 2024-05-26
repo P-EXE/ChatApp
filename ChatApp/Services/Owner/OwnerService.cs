@@ -2,6 +2,7 @@
 using ChatApp.Models;
 using ChatShared.Models;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 
 namespace ChatApp.Services;
 
@@ -31,14 +32,14 @@ public class OwnerService : IOwnerService
     if (bt != null)
     {
       Debug.WriteLine($"==Success==> {nameof(LoginAsync)} : Got {nameof(BearerToken)}");
-      Statics.AppOwner = await _httpService.GetAsync<AppUser>("user/self/private") as AppOwner;
-
       Statics.BearerToken = bt;
+
+      AuthenticationHeaderValue authHeader = new("Bearer", Statics.BearerToken?.AccessToken ?? "");
+      await _httpService.InjectAuthHeader(authHeader);
+      Statics.AppOwner = await _httpService.GetAsync<AppOwner>("user/self/private");
       /*_sqlitedbContext.BearerTokens.Add(bt);*/
       return true;
     }
-
-    
     return false;
   }
 

@@ -7,7 +7,7 @@
   <HorizontalStackLayout>
     <VerticalStackLayout>
       <Label Text="{Binding Name}"/>
-      <Label x:DataType="m:Message_DTORead" Text="{Binding Text}"/>
+      <Label x:DataType="m:Message_Read" Text="{Binding Text}"/>
       <Label Text="{Binding Id}"/>
     </VerticalStackLayout>
     <VerticalStackLayout>

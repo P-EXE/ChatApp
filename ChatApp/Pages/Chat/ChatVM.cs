@@ -17,11 +17,11 @@ public partial class ChatVM : ObservableObject
   }
 
   [ObservableProperty]
-  private Chat_Read _chat;
+  private Chat_MAUI _chat;
   [ObservableProperty]
-  private ObservableCollection<Message> _messages = new();
+  private ObservableCollection<Message_MAUI> _messages = [];
   [ObservableProperty]
-  private Message_DTOCreate _message = new();
+  private Message_MAUI _message = new();
 
   [ObservableProperty]
   private int _position = 0;
@@ -29,9 +29,9 @@ public partial class ChatVM : ObservableObject
   [RelayCommand]
   private async Task GetMessages()
   {
-    List<Message>? messagesOld = Messages.ToList();
+    List<Message_MAUI>? messagesOld = Messages.ToList();
 
-    IEnumerable<Message>? messagesNew;
+    IEnumerable<Message_MAUI>? messagesNew;
     messagesNew = await _messageService.GetMessagesOfChatAsync(Chat.Id.ToString(), Position);
 
     messagesOld.AddRange(messagesNew);
@@ -42,11 +42,8 @@ public partial class ChatVM : ObservableObject
   [RelayCommand]
   private async Task SendMessage()
   {
-    Message_DTOCreate createMessage = new()
-    {
-      Text = Message.Text
-    };
-    await _messageService.SendMessageToChatAsync(Chat.Id.ToString(), createMessage);
+    Message.Chat = Chat;
+    await _messageService.SendMessageToChatAsync(Message);
   }
 
   [RelayCommand]

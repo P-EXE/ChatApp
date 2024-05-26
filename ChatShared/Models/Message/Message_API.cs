@@ -1,6 +1,6 @@
 ﻿namespace ChatShared.Models;
 
-public class Message
+public class Message_API
 {
   public Guid ChatId { get; set; }
   public Chat_API Chat { get; set; }

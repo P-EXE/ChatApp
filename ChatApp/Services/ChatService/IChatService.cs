@@ -1,9 +1,11 @@
 ﻿using ChatShared.Models;
+using System.Collections.ObjectModel;
 
 namespace ChatApp.Services;
 
 public interface IChatService
 {
-  Task<Chat_Read?> CreateChatAsync(Chat_Create createChat);
-  Task<List<Chat_Read>?> GetChatsAsync();
+  Task<Chat_MAUI?> CreateChatAsync(Chat_MAUI chat);
+  Task<Chat_MAUI?> UpdateChatAsync(Chat_MAUI chat);
+  Task<IEnumerable<Chat_MAUI>?> GetChatsAsync();
 }

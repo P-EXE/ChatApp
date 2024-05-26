@@ -31,7 +31,7 @@ public class UserRepo : IUserRepo
     user = await _context.Users
       .Include(u => u.Chats).Include(u => u.Messages)
       .FirstAsync(u => u.Id == user.Id);
-    return _mapper.Map<AppUser_Read>(user);
+    return _mapper.Map<AppUser>(user);
   }
   #endregion Self
 

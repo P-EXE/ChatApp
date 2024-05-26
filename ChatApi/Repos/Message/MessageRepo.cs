@@ -19,17 +19,17 @@ public class MessageRepo : IMessageRepo
 
   public async Task<Message_Read?> CreateMessageInChatAsync(Message_Create createMessage)
   {
-    Message message = _mapper.Map<Message>(createMessage);
-    Chat chat = await _context.Chats
+    Message_API message = _mapper.Map<Message_API>(createMessage);
+    Chat_API chat = await _context.Chats
       .Include(c => c.Messages).Include(c => c.Users)
       .FirstAsync(c => c.Id == message.ChatId);
     
     chat.Messages.Add(message);
     _context.SaveChanges();
-    return _mapper.Map<Message, Message_Read>(message);
+    return _mapper.Map<Message_API, Message_Read>(message);
   }
 
-  public Task DeleteMessageInChatAsync(AppUser user, Guid chatId, int messageId)
+  public async Task<IEnumerable<Message_Read>?> GetSomeMessagesInChatAsync(Guid chatId, int position)
   {
     throw new NotImplementedException();
   }

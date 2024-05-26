@@ -10,9 +10,6 @@
 
       <Grid Grid.Row="0" HeightRequest="200">
         <Image/>
-        <Button Text="Edit"
-                VerticalOptions="Start"
-                HorizontalOptions="End"/>
       </Grid>
 
       <Border Grid.Row="1">
@@ -33,7 +30,8 @@
       <Border Grid.Row="2">
         <VerticalStackLayout>
           <Button Text="+"
-                  Command="{Binding NavToUserSearchPageCommand}"/>
+                  Command="{Binding NavToUserSearchPageCommand}"
+                  IsVisible="{Binding PageModeEdit}"/>
           <ScrollView>
             <CollectionView ItemsSource="{Binding Chat.Users}">
               <CollectionView.ItemTemplate>
@@ -48,7 +46,11 @@
 
     </Grid>
 
-    <Button Text="Create Chat"
+    <Button Text="Edit"
+                Command="{Binding SwitchToEditModeCommand}"
+                IsVisible="{Binding PageModeView}"
+                VerticalOptions="End"/>
+    <Button Text="Save Chat"
             Command="{Binding SaveChatChangesCommand}"
             IsVisible="{Binding PageModeEdit}"
             VerticalOptions="End"/>

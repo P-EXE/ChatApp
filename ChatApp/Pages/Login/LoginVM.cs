@@ -7,10 +7,10 @@ namespace ChatApp.ViewModels;
 
 public partial class LoginVM : ObservableObject
 {
-  private readonly IOwnerService _authService;
-  public LoginVM(IOwnerService authService)
+  private readonly IOwnerService _ownerService;
+  public LoginVM(IOwnerService ownerService)
   {
-    _authService = authService;
+    _ownerService = ownerService;
   }
 
   [ObservableProperty]
@@ -21,7 +21,7 @@ public partial class LoginVM : ObservableObject
   [RelayCommand]
   public async Task Login()
   {
-    bool result = await _authService.LoginAsync(Email, Password);
+    bool result = await _ownerService.LoginAsync(Email, Password);
     if (result)
     {
       await Shell.Current.GoToAsync($"//{nameof(ChatsPage)}");

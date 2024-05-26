@@ -13,7 +13,7 @@ public class SQLiteDBContext : DbContext
   public DbSet<AppOwner> Owner => Set<AppOwner>();
   // Shared with API
   public DbSet<Chat_API> Chats => Set<Chat_API>();
-  public DbSet<Message> Messages => Set<Message>();
+  public DbSet<Message_API> Messages => Set<Message_API>();
 
   public SQLiteDBContext(DbContextOptions<SQLiteDBContext> options) : base(options)
   {
@@ -52,7 +52,7 @@ public class SQLiteDBContext : DbContext
     });
 
     // Shared with API
-    builder.Entity<Message>(m =>
+    builder.Entity<Message_API>(m =>
     {
       m.HasKey(m => new { m.UserId, m.ChatId, m.MessageId });
 

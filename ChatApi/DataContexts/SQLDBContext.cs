@@ -9,7 +9,7 @@ public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
 {
 
   public DbSet<Chat_API> Chats => Set<Chat_API>();
-  public DbSet<Message> Messages => Set<Message>();
+  public DbSet<Message_API> Messages => Set<Message_API>();
 
   public SQLDBContext(DbContextOptions<SQLDBContext> options) : base(options)
   {
@@ -40,7 +40,7 @@ public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
                     .OnDelete(DeleteBehavior.Cascade));
     });
 
-    builder.Entity<Message>(m =>
+    builder.Entity<Message_API>(m =>
     {
       m.HasKey(m => new { m.UserId, m.ChatId, m.MessageId });
 

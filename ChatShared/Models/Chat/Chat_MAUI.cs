@@ -9,5 +9,5 @@ public class Chat_MAUI : IChat
   public string Description { get; set; }
 
   public ObservableCollection<AppUser>? Users { get; set; } = [];
-  public ObservableCollection<Message>? Messages { get; set; } = [];
+  public ObservableCollection<Message_API>? Messages { get; set; } = [];
 }

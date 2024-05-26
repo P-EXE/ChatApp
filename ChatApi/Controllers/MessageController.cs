@@ -21,19 +21,19 @@ public class MessageController : ControllerBase
 
   [HttpPost]
   [Authorize]
-  public async Task CreateMessageInChat([FromBody] Message_Create createMessage)
+  public async Task<Message_Read?> CreateMessageInChat([FromBody] Message_Create createMessage)
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
-    await _messageRepo.CreateMessageInChatAsync(createMessage);
+    return await _messageRepo.CreateMessageInChatAsync(createMessage);
   }
 
-  [HttpDelete("{id}")]
+/*  [HttpDelete("{id}")]
   [Authorize]
   public async Task DeleteMessageInChat([FromRoute] Guid chatId, [FromRoute] int id)
   {
     AppUser? user = await _userManager.GetUserAsync(HttpContext.User);
     await _messageRepo.DeleteMessageInChatAsync(user, chatId, id);
-  }
+  }*/
 
   [HttpGet]
   [Authorize]

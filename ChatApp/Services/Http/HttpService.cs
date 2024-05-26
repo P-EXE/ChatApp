@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 
 namespace ChatApp.Services;
 
-internal class HttpService : IHttpService, IDisposable
+internal class HttpService : IHttpService
 {
   private readonly HttpClient _httpClient;
   private readonly JsonSerializerOptions _jsonSerializerOptions;
@@ -17,6 +18,11 @@ internal class HttpService : IHttpService, IDisposable
     {
       PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
+  }
+
+  public async Task InjectAuthHeader(AuthenticationHeaderValue authHeader)
+  {
+    _httpClient.DefaultRequestHeaders.Authorization = authHeader;
   }
 
   public async Task<T?> GetAsync<T>(string route, [CallerMemberName] string caller = "")
@@ -160,8 +166,31 @@ internal class HttpService : IHttpService, IDisposable
     return default(T2?);
   }
 
-  public void Dispose()
+  public async Task<T2?> PutAsync<T1, T2>(string route, T1 input, [CallerMemberName] string caller = "")
   {
-    throw new NotImplementedException();
+    try
+    {
+      string json = JsonSerializer.Serialize(input, _jsonSerializerOptions);
+      StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+      HttpResponseMessage response = await _httpClient.PutAsync(route, content);
+      if (response.IsSuccessStatusCode)
+      {
+        Debug.WriteLine($"==Success==> {caller} / {nameof(PostAsync)} : {response.StatusCode}");
+        string responseContent = await response.Content.ReadAsStringAsync();
+        T2? t2 = JsonSerializer.Deserialize<T2>(responseContent, _jsonSerializerOptions);
+        return t2;
+      }
+      else
+      {
+        Debug.WriteLine($"==Error==> {caller} / {nameof(PostAsync)} : {response.StatusCode}");
+        Debug.WriteLine($"           {response}");
+      }
+    }
+    catch (Exception ex)
+    {
+      Debug.WriteLine($"==Exception==> {caller} / {nameof(PostAsync)} : Exception occured while trying to post");
+      Debug.WriteLine($"               {ex}");
+    }
+    return default(T2?);
   }
 }
