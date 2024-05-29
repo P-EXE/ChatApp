@@ -1,6 +1,6 @@
 ﻿namespace ChatShared.Models;
 
-public class Message_Read
+public class Message
 {
   public Chat Chat { get; set; }
   public AppUser User { get; set; }

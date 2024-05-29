@@ -2,9 +2,11 @@
 using ChatApp.Pages;
 using ChatApp.Services;
 using ChatShared.Models;
+using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Collections.ObjectModel;
 
 namespace ChatApp.ViewModels;
 
@@ -35,11 +37,14 @@ public partial class ChatDetailsVM : ObservableObject
   }
 
   [ObservableProperty]
-  private Chat_MAUI _chat = new();
+  private Chat _chat = new();
+  [ObservableProperty]
+  private ObservableCollection<AppUser>? _members = [];
 
   // Set Page Mode
   async partial void OnActivePageModeChanged(int newPageMode)
   {
+    Members = Chat.Users?.ToObservableCollection();
     switch ((PageMode)newPageMode)
     {
       case PageMode.Edit:
@@ -82,7 +87,8 @@ public partial class ChatDetailsVM : ObservableObject
 
   private async Task CreateChat()
   {
-    Chat.Users?.Add(Statics.AppOwner);
+    Members.Add(Statics.AppOwner);
+    Chat.Users = Members;
     await _chatService.CreateChatAsync(Chat);
     await NavToChat();
   }
@@ -100,9 +106,9 @@ public partial class ChatDetailsVM : ObservableObject
     {
       return;
     }
-    if (!Chat.Users.Any(u => u.Id == user.Id))
+    if (!Members.Any(u => u.Id == user.Id))
     {
-      Chat.Users.Add(user);
+      Members.Add(user);
     }
   }
 

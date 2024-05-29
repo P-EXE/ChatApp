@@ -8,8 +8,8 @@ namespace ChatApi.DataContexts;
 public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
 {
 
-  public DbSet<Chat_API> Chats => Set<Chat_API>();
-  public DbSet<Message_API> Messages => Set<Message_API>();
+  public DbSet<Chat> Chats => Set<Chat>();
+  public DbSet<Message> Messages => Set<Message>();
 
   public SQLDBContext(DbContextOptions<SQLDBContext> options) : base(options)
   {
@@ -29,7 +29,7 @@ public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
       .UsingEntity<Dictionary<Guid, object>>(
                 "UserChat",
                 j => j
-                    .HasOne<Chat_API>()
+                    .HasOne<Chat>()
                     .WithMany()
                     .HasForeignKey("ChatId")
                     .OnDelete(DeleteBehavior.Cascade),
@@ -40,18 +40,15 @@ public class SQLDBContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
                     .OnDelete(DeleteBehavior.Cascade));
     });
 
-    builder.Entity<Message_API>(m =>
+    // Shared with API
+    builder.Entity<Message>(m =>
     {
-      m.HasKey(m => new { m.UserId, m.ChatId, m.MessageId });
-
       m.HasOne(m => m.User)
       .WithMany(u => u.Messages)
-      .HasForeignKey(m => m.UserId)
       .OnDelete(DeleteBehavior.Cascade);
 
       m.HasOne(m => m.Chat)
       .WithMany(c => c.Messages)
-      .HasForeignKey(m => m.ChatId)
       .OnDelete(DeleteBehavior.Cascade);
     });
   }

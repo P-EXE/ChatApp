@@ -33,7 +33,7 @@
                   Command="{Binding NavToUserSearchPageCommand}"
                   IsVisible="{Binding PageModeEdit}"/>
           <ScrollView>
-            <CollectionView ItemsSource="{Binding Chat.Users}">
+            <CollectionView ItemsSource="{Binding Members}">
               <CollectionView.ItemTemplate>
                 <DataTemplate>
                   <v:ContactV/>

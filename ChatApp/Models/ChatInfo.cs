@@ -4,7 +4,7 @@ namespace ChatApp.Models;
 
 public class ChatInfo
 {
-  private Chat_API Chat {  get; set; }
+  private Chat Chat {  get; set; }
   private string Name { get; set; }
   private string Description { get; set; }
   private string LatestMessage { get; set; }

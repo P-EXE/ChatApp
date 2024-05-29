@@ -46,7 +46,7 @@ public class UserRepo : IUserRepo
 
   public async Task<IEnumerable<Chat_Read>?> GetUsersChatsAsync(AppUser user)
   {
-    IEnumerable<Chat_API> chats = _context.Users
+    IEnumerable<Chat> chats = _context.Users
       .Include(u => u.Chats).ThenInclude(c => c.Users)
       .Where(u => u.Id == user.Id)
       .First()

@@ -13,13 +13,13 @@ public class MessageService : IMessageService
     _mapper = mapper;
   }
 
-  public async Task<IEnumerable<Message_MAUI>?> GetMessagesOfChatAsync(string chatId, int position)
+  public async Task<IEnumerable<Message>?> GetMessagesOfChatAsync(string chatId, int position)
   {
     IEnumerable<Message_Read>? readMessages = await _httpService.GetAsync<IEnumerable<Message_Read>>($"user/chats/{chatId}/messages?position={position}");
-    return _mapper.Map<IEnumerable<Message_MAUI>>(readMessages);
+    return _mapper.Map<IEnumerable<Message>>(readMessages);
   }
 
-  public async Task<Message_MAUI?> SendMessageToChatAsync(Message_MAUI message)
+  public async Task<Message?> SendMessageToChatAsync(Message message)
   {
     Message_Create createMessage = new()
     {
@@ -28,7 +28,7 @@ public class MessageService : IMessageService
       UserId = Statics.AppOwner.Id
     };
 
-    Message_Read? readMessage = await _httpService.PostAsync<Message_Create, Message_Read>($"chat/messages", createMessage);
-    return _mapper.Map<Message_MAUI>(readMessage);
+    Message? retMessage = await _httpService.PostAsync<Message_Create, Message>($"chat/messages", createMessage);
+    return retMessage;
   }
 }

@@ -17,16 +17,16 @@ public partial class ChatsVM : ObservableObject
   }
 
   [ObservableProperty]
-  private ObservableCollection<Chat_MAUI>? _chats = new();
+  private ObservableCollection<Chat>? _chats = new();
   [ObservableProperty]
-  private Chat_MAUI _selectedChat;
+  private Chat _selectedChat;
   [ObservableProperty]
   private bool _chatList_isRefreshing;
 
   [RelayCommand]
   private async Task RefreshChatList()
   {
-    IEnumerable<Chat_MAUI>? chats = await _chatService.GetChatsAsync();
+    IEnumerable<Chat>? chats = await _chatService.GetChatsAsync();
     Chats = new(chats);
   }
 

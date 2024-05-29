@@ -14,7 +14,7 @@ public class ChatService : IChatService
     _mapper = mapper;
   }
 
-  public async Task<Chat_MAUI?> CreateChatAsync(Chat_MAUI chat)
+  public async Task<Chat?> CreateChatAsync(Chat chat)
   {
     /*Chat_Create createChat = _mapper.Map<Chat_MAUI,Chat_Create>(chat);*/
     Chat_Create createChat = new()
@@ -29,10 +29,10 @@ public class ChatService : IChatService
     }
 
     Chat_Read? readChat = await _httpService.PostAsync<Chat_Create, Chat_Read?>("chat", createChat);
-    return _mapper.Map<Chat_MAUI>(readChat);
+    return _mapper.Map<Chat>(readChat);
   }
 
-  public async Task<Chat_MAUI?> UpdateChatAsync(Chat_MAUI chat)
+  public async Task<Chat?> UpdateChatAsync(Chat chat)
   {
     Chat_Update updateChat = new()
     {
@@ -50,22 +50,22 @@ public class ChatService : IChatService
     return null;
   }
 
-  public async Task<IEnumerable<Chat_MAUI>?> GetChatsAsync()
+  public async Task<IEnumerable<Chat>?> GetChatsAsync()
   {
     IEnumerable<Chat_Read>? chatsRead = await _httpService.GetAsync<IEnumerable<Chat_Read>?>("user/chats");
     // Does not work
     /*IEnumerable<Chat_MAUI>? retChats = _mapper.Map<IEnumerable<Chat_Read>, IEnumerable<Chat_MAUI>>(chats);*/
     // Manual version
-    List<Chat_MAUI>? chats = [];
+    List<Chat>? chats = [];
     foreach (Chat_Read readChat in chatsRead)
     {
-      Chat_MAUI chat = new()
+      Chat chat = new()
       {
         Id = readChat.Id,
         Name = readChat.Name,
         Description = readChat.Description,
-        Users = new(readChat.Users),
-        Messages = new(readChat.Messages)
+        Users = readChat.Users,
+        Messages = readChat.Messages
       };
       chats.Add(chat);
     }

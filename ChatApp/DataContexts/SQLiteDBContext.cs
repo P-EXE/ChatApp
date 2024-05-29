@@ -12,8 +12,8 @@ public class SQLiteDBContext : DbContext
   public DbSet<AppUser> Users => Set<AppUser>();
   public DbSet<AppOwner> Owner => Set<AppOwner>();
   // Shared with API
-  public DbSet<Chat_API> Chats => Set<Chat_API>();
-  public DbSet<Message_API> Messages => Set<Message_API>();
+  public DbSet<Chat> Chats => Set<Chat>();
+  public DbSet<Message> Messages => Set<Message>();
 
   public SQLiteDBContext(DbContextOptions<SQLiteDBContext> options) : base(options)
   {
@@ -40,7 +40,7 @@ public class SQLiteDBContext : DbContext
       .UsingEntity<Dictionary<Guid, object>>(
                 "UserChat",
                 j => j
-                    .HasOne<Chat_API>()
+                    .HasOne<Chat>()
                     .WithMany()
                     .HasForeignKey("ChatId")
                     .OnDelete(DeleteBehavior.Cascade),
@@ -52,18 +52,14 @@ public class SQLiteDBContext : DbContext
     });
 
     // Shared with API
-    builder.Entity<Message_API>(m =>
+    builder.Entity<Message>(m =>
     {
-      m.HasKey(m => new { m.UserId, m.ChatId, m.MessageId });
-
       m.HasOne(m => m.User)
       .WithMany(u => u.Messages)
-      .HasForeignKey(m => m.UserId)
       .OnDelete(DeleteBehavior.Cascade);
 
       m.HasOne(m => m.Chat)
       .WithMany(c => c.Messages)
-      .HasForeignKey(m => m.ChatId)
       .OnDelete(DeleteBehavior.Cascade);
     });
   }

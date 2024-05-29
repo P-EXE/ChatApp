@@ -18,7 +18,7 @@ public class OwnerService : IOwnerService
 
   public async Task<bool> RegisterAsync(string email, string password)
   {
-    AppUser_DTOCreate createUser = new() { Email = email, Password = password };
+    AppUser_Create createUser = new() { Email = email, Password = password };
 
     bool result = await _httpService.PostAsync("user/register", createUser);
     return result;
@@ -26,18 +26,20 @@ public class OwnerService : IOwnerService
 
   public async Task<bool> LoginAsync(string email, string password)
   {
-    AppUser_DTOCreate createUser = new() { Email = email, Password = password };
+    AppUser_Create createUser = new() { Email = email, Password = password };
 
-    BearerToken? bt = await _httpService.PostAsync<AppUser_DTOCreate, BearerToken>("user/login", createUser);
+    BearerToken? bt = await _httpService.PostAsync<AppUser_Create, BearerToken>("user/login", createUser);
     if (bt != null)
     {
       Debug.WriteLine($"==Success==> {nameof(LoginAsync)} : Got {nameof(BearerToken)}");
-      Statics.BearerToken = bt;
 
+      Statics.BearerToken = bt;
+      /*_sqlitedbContext.BearerTokens.Add(bt);*/
       AuthenticationHeaderValue authHeader = new("Bearer", Statics.BearerToken?.AccessToken ?? "");
       await _httpService.InjectAuthHeader(authHeader);
       Statics.AppOwner = await _httpService.GetAsync<AppOwner>("user/self/private");
-      /*_sqlitedbContext.BearerTokens.Add(bt);*/
+
+      /*await _sqlitedbContext.Owner.AddAsync(Statics.AppOwner);*/
       return true;
     }
     return false;

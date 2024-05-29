@@ -5,7 +5,7 @@ namespace ChatApp.Services;
 
 public interface IChatService
 {
-  Task<Chat_MAUI?> CreateChatAsync(Chat_MAUI chat);
-  Task<Chat_MAUI?> UpdateChatAsync(Chat_MAUI chat);
-  Task<IEnumerable<Chat_MAUI>?> GetChatsAsync();
+  Task<Chat?> CreateChatAsync(Chat chat);
+  Task<Chat?> UpdateChatAsync(Chat chat);
+  Task<IEnumerable<Chat>?> GetChatsAsync();
 }
