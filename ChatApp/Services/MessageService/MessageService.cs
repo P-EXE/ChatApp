@@ -15,8 +15,8 @@ public class MessageService : IMessageService
 
   public async Task<IEnumerable<Message>?> GetMessagesOfChatAsync(string chatId, int position)
   {
-    IEnumerable<Message_Read>? readMessages = await _httpService.GetAsync<IEnumerable<Message_Read>>($"user/chats/{chatId}/messages?position={position}");
-    return _mapper.Map<IEnumerable<Message>>(readMessages);
+    IEnumerable<Message>? readMessages = await _httpService.GetAsync<IEnumerable<Message>>($"chat/messages?chatId={chatId}&position={position}");
+    return readMessages;
   }
 
   public async Task<Message?> SendMessageToChatAsync(Message message)

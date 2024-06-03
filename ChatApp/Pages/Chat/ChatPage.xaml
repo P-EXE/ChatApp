@@ -12,18 +12,22 @@
     </HorizontalStackLayout>
   </Shell.TitleView>
   <Grid RowDefinitions="auto,*,auto" VerticalOptions="FillAndExpand">
-    <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
-      <CollectionView SelectionMode="Multiple"
+    <RefreshView Grid.Row="1"
+                 Command="{Binding RefreshChatCommand}"
+                 IsRefreshing="{Binding Chat_isRefreshing}">
+      <ScrollView VerticalOptions="FillAndExpand">
+        <CollectionView SelectionMode="Multiple"
                     ItemsSource="{Binding Messages}">
-        <CollectionView.ItemTemplate>
-          <DataTemplate>
-            <SwipeView>
-              <v:ChatListV/>
-            </SwipeView>
-          </DataTemplate>
-        </CollectionView.ItemTemplate>
-      </CollectionView>
-    </ScrollView>
+          <CollectionView.ItemTemplate>
+            <DataTemplate>
+              <SwipeView>
+                <v:ChatListV/>
+              </SwipeView>
+            </DataTemplate>
+          </CollectionView.ItemTemplate>
+        </CollectionView>
+      </ScrollView>
+    </RefreshView>
     <FlexLayout Grid.Row="2" HorizontalOptions="FillAndExpand" MaximumHeightRequest="200">
       <Editor Placeholder="Message" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" FlexLayout.Grow="1" AutoSize="TextChanges" MaximumHeightRequest="200" Style="{StaticResource Editor-MessageBox}" Text="{Binding Message.Text}"/>
       <Button Text="📎" HorizontalOptions="End" VerticalOptions="End" MaximumHeightRequest="50" MaximumWidthRequest="50" MinimumWidthRequest="{Binding Source={RelativeSource Self}, Path=Height}" Style="{StaticResource Button-Default}"/>

@@ -24,14 +24,17 @@ public partial class ChatVM : ObservableObject
   private Message _message = new();
 
   [ObservableProperty]
+  private bool chat_isRefreshing;
+
+  [ObservableProperty]
   private int _position = 0;
 
   [RelayCommand]
-  private async Task GetMessages()
+  private async Task RefreshChat()
   {
     List<Message>? messagesOld = Messages.ToList();
 
-    IEnumerable<Message>? messagesNew;
+    IEnumerable<Message>? messagesNew = [];
     messagesNew = await _messageService.GetMessagesOfChatAsync(Chat.Id.ToString(), Position);
 
     messagesOld.AddRange(messagesNew);

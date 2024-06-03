@@ -11,6 +11,8 @@ public class MessageRepo : IMessageRepo
   private readonly SQLDBContext _context;
   private readonly IMapper _mapper;
 
+  private const int takeSize = 20;
+
   public MessageRepo(SQLDBContext context, IMapper mapper)
   {
     _context = context;
@@ -35,6 +37,15 @@ public class MessageRepo : IMessageRepo
 
   public async Task<IEnumerable<Message_Read>?> GetSomeMessagesInChatAsync(Guid chatId, int position)
   {
-    throw new NotImplementedException();
+    IEnumerable<Message> messages = _context.Chats
+      .Include(c => c.Messages)
+      .Where(c => c.Id == chatId)
+      .First()
+      .Messages
+      .Skip(takeSize * position)
+      .Take(takeSize)
+      .AsEnumerable();
+
+    return _mapper.Map<IEnumerable<Message_Read>>(messages);
   }
 }
