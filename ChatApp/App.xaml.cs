@@ -1,15 +1,11 @@
-﻿using ChatApp.Flows;
-
-namespace ChatApp;
+﻿namespace ChatApp;
 
 public partial class App : Application
 {
-  public App(FirstTimeFlow firstTimeFlow)
+  public App()
   {
     InitializeComponent();
 
-    MainPage = new MainPage();
-
-    firstTimeFlow.FirstTimeSetup();
+    MainPage = new AppShell();
   }
 }

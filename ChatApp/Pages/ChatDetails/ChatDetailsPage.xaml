@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ChatApp.ViewModels"
+             xmlns:v="clr-namespace:ChatApp.Views"
+             x:Class="ChatApp.Pages.ChatDetailsPage"
+             x:DataType="vm:ChatDetailsVM">
+  <Grid>
+    <Grid RowDefinitions="auto,auto,*">
+
+      <Grid Grid.Row="0" HeightRequest="200">
+        <Image/>
+      </Grid>
+
+      <Border Grid.Row="1">
+        <VerticalStackLayout>
+          <Label Text="{Binding Chat.Name}"
+                 IsVisible="{Binding PageModeView}"/>
+          <Entry Text="{Binding Chat.Name}"
+                 Placeholder="Name"
+                 IsVisible="{Binding PageModeEdit}"/>
+          <Label Text="{Binding Chat.Description}"
+                 IsVisible="{Binding PageModeView}"/>
+          <Entry Text="{Binding Chat.Description}"
+                 Placeholder="Description"
+                 IsVisible="{Binding PageModeEdit}"/>
+        </VerticalStackLayout>
+      </Border>
+
+      <Border Grid.Row="2">
+        <VerticalStackLayout>
+          <Button Text="+"
+                  Command="{Binding NavToUserSearchPageCommand}"
+                  IsVisible="{Binding PageModeEdit}"/>
+          <ScrollView>
+            <CollectionView ItemsSource="{Binding Members}">
+              <CollectionView.ItemTemplate>
+                <DataTemplate>
+                  <v:ContactV/>
+                </DataTemplate>
+              </CollectionView.ItemTemplate>
+            </CollectionView>
+          </ScrollView>
+        </VerticalStackLayout>
+      </Border>
+
+    </Grid>
+
+    <Button Text="Edit"
+                Command="{Binding SwitchToEditModeCommand}"
+                IsVisible="{Binding PageModeView}"
+                VerticalOptions="End"/>
+    <Button Text="Save Chat"
+            Command="{Binding SaveChatChangesCommand}"
+            IsVisible="{Binding PageModeEdit}"
+            VerticalOptions="End"/>
+
+  </Grid>
+</ContentPage>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ChatApp.ViewModels"
+             x:Class="ChatApp.Pages.SettingsPage">
+  <Grid>
+    <Border Style="{StaticResource Border-Default}">
+      <VerticalStackLayout Spacing="{StaticResource Spacing}">
+        <Label Text="Danger Zone" Margin="10,0"/>
+        <BoxView Background="{StaticResource BackgroundDark2}" HeightRequest="{StaticResource Thickness}"/>
+        <Button Text="Log Out" Command="{Binding LogOutCommand}" Style="{StaticResource Button-Default}" Margin="10,0"/>
+        <BoxView Background="{StaticResource BackgroundDark2}" HeightRequest="{StaticResource Thickness}"/>
+        <Button Text="Delete Account" Command="{Binding LogOutCommand}" Style="{StaticResource Button-Default}" Margin="10,0"/>
+      </VerticalStackLayout>
+    </Border>
+  </Grid>
+</ContentPage>

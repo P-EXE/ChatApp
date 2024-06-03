@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using ChatApi.DataContexts;
-using ChatApi.Models;
 using ChatShared.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace ChatApi.Repos;
 
@@ -17,46 +18,86 @@ public class ChatRepo : IChatRepo
     _mapper = mapper;
   }
 
-  public async Task CreateChatAsync(Chat_DTOCreate createChat)
+  public async Task<Chat_Read?> CreateChatAsync(Chat_Create createChat)
   {
-    Chat? chat = _mapper.Map<Chat_DTOCreate, Chat>(createChat);
-    _context.Chats.Add(chat);
+    Chat chat;
+    AppUser? user;
 
+    // Create the Chat and Save it
+    chat = _mapper.Map<Chat_Create, Chat>(createChat);
+    await _context.Chats.AddAsync(chat);
+
+    // Find all affected Users
+    foreach (Guid userId in createChat.UserIds)
+    {
+      user = await _context.Users.FindAsync(userId);
+      if (user != null)
+      {
+        chat.Users.Add(user);
+      }
+    }
+
+    // Save the Chat and return it
     await _context.SaveChangesAsync();
+    return _mapper.Map<Chat_Read>(chat);
   }
 
-  public async Task DeleteChatAsync(Guid chatId)
+  public async Task<Chat_Read?> ReadChatAsync(Guid id)
   {
-    Chat? chat = await _context.Chats.FindAsync(chatId);
-
-    _context.Chats.Remove(chat);
-
-    await _context.SaveChangesAsync();
+    throw new NotImplementedException();
   }
 
-  public async Task AddUserToChatAsync(Guid chatId, Guid userId)
+  public async Task<Chat_Read?> UpdateChatAsync(Chat_Update updateChat)
   {
-    Chat? chat = await _context.Chats.FindAsync(chatId);
-    AppUser? user = await _context.Users.FindAsync(userId);
+    Chat? chat;
+    AppUser? user;
+    List<AppUser> oldUsers = new();
+    List<AppUser> newUsers = new();
 
-    chat.Users.Add(user);
+    // Find the Chat and update it
+    chat = await _context.Chats
+      .Include(c => c.Users)
+      .FirstAsync(c => c.Id == updateChat.Id);
+    chat.Name = updateChat.Name;
+    chat.Description = updateChat.Description;
 
-    _context.Chats.Update(chat);
-    _context.Users.Update(user);
+    // Set old and new Users
+    oldUsers = chat.Users.ToList();
+    foreach (Guid newUsereId in updateChat.UserIds)
+    {
+      newUsers.Add(await _context.Users.FindAsync(newUsereId));
+    }
 
+    // Remove old Users
+    foreach (AppUser oldUser in oldUsers)
+    {
+      if (!newUsers.Contains(oldUser))
+      {
+        chat.Users.Remove(oldUser);
+      }
+    }
+
+    // Add new Users
+    foreach (AppUser newUser in newUsers)
+    {
+      if (!oldUsers.Contains(newUser))
+      {
+        chat.Users.Add(newUser);
+      }
+    }
+
+    // Save the Chat and return it
     await _context.SaveChangesAsync();
+    return _mapper.Map<Chat_Read>(chat);
   }
 
-  public async Task RemoveUserFromChatAsync(Guid chatId, Guid userId)
+  public async Task<bool> DeleteChatAsync(Guid id)
   {
-    Chat? chat = await _context.Chats.FindAsync(chatId);
-    AppUser? user = await _context.Users.FindAsync(userId);
+    throw new NotImplementedException();
+  }
 
-    chat.Users.Remove(user);
-
-    _context.Update(chat);
-    _context.Update(user);
-
-    await _context.SaveChangesAsync();
+  public async Task<IEnumerable<Chat>?> ReadAllChatsAsync()
+  {
+    throw new NotImplementedException();
   }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ChatApi.DataContexts;
-using ChatApi.Models;
 using ChatShared.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApi.Repos;
 
@@ -17,26 +17,24 @@ public class MessageRepo : IMessageRepo
     _mapper = mapper;
   }
 
-  public async Task CreateMessageInChatAsync(Guid chatId, Message_DTOCreate createMessage)
+  public async Task<Message_Read?> CreateMessageInChatAsync(Message_Create createMessage)
   {
-    Chat? chat = await _context.Chats.FindAsync(chatId);
-    Message? message = _mapper.Map<Message_DTOCreate, Message>(createMessage);
+    Message message = _mapper.Map<Message>(createMessage);
+
+    Chat chat = await _context.Chats
+      .Include(c => c.Messages).Include(c => c.Users)
+      .FirstAsync(c => c.Id == createMessage.ChatId);
+
+    message.User = await _context.Users.FindAsync(createMessage.UserId);
+    message.Chat = chat;
 
     chat.Messages.Add(message);
-
-    _context.Chats.Update(chat);
-    await _context.SaveChangesAsync();
+    _context.SaveChanges();
+    return _mapper.Map<Message, Message_Read>(message);
   }
 
-  public async Task DeleteMessageInChatAsync(Guid chatId, int messageId)
+  public async Task<IEnumerable<Message_Read>?> GetSomeMessagesInChatAsync(Guid chatId, int position)
   {
-    Message? message = _context.Chats
-      .Where(c => c.Id == chatId).First()
-      .Messages
-      .Where(m => m.MessageId == messageId).First();
-
-    _context.Messages.Remove(message);
-
-    await _context.SaveChangesAsync();
+    throw new NotImplementedException();
   }
 }

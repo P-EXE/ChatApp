@@ -2,14 +2,8 @@
 
 public class BearerToken
 {
-  public TokenType TokenType { get; set; }
-  public string AccessToken { get; set; }
-  public TimeSpan ExpiresIn { get; set; }
-  public string RefreshToken {  get; set; }
-}
-
-public enum TokenType
-{
-  Bearer,
-  Other
+  public string? TokenType { get; set; }
+  public string? AccessToken { get; set; }
+  public int? ExpiresIn { get; set; }
+  public string? RefreshToken {  get; set; }
 }

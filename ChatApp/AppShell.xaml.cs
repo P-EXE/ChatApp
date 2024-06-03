@@ -1,5 +1,4 @@
-﻿using ChatApp.Flows;
-using ChatApp.Pages;
+﻿using ChatApp.Pages;
 
 namespace ChatApp
 {
@@ -12,9 +11,14 @@ namespace ChatApp
       Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
       Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
-      Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+      Routing.RegisterRoute($"{nameof(ChatsPage)}/{nameof(ChatPage)}", typeof(ChatPage));
+      Routing.RegisterRoute($"{nameof(ChatsPage)}/{nameof(ChatDetailsPage)}", typeof(ChatDetailsPage));
+      Routing.RegisterRoute($"{nameof(ChatDetailsPage)}/{nameof(UserSearchPage)}", typeof(UserSearchPage));
 
-      Routing.RegisterRoute(nameof(ChatsPage), typeof(ChatsPage));
+      Routing.RegisterRoute($"{nameof(ContactsPage)}/{nameof(UserSearchPage)}", typeof(UserSearchPage));
+      Routing.RegisterRoute($"{nameof(ContactsPage)}/{nameof(UserSearchPage)}/{nameof(UserProfilePage)}", typeof(UserProfilePage));
+
+      Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
     }
   }
 }

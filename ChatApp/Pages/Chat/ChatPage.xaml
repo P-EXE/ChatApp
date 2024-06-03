@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ChatApp.ViewModels"
+             xmlns:v="clr-namespace:ChatApp.Views"
+             x:Class="ChatApp.Pages.ChatPage"
+             x:DataType="vm:ChatVM">
+  <Shell.TitleView>
+    <HorizontalStackLayout>
+      <Image MinimumWidthRequest="{Binding Source={RelativeSource Self}, Path=Height}" HorizontalOptions="Start"/>
+      <Button Grid.Column="0" Text="{Binding Chat.Name}" HorizontalOptions="StartAndExpand" Style="{StaticResource Button-Header}" Command="{Binding NavToChatDetailsCommand}"/>
+    </HorizontalStackLayout>
+  </Shell.TitleView>
+  <Grid RowDefinitions="auto,*,auto" VerticalOptions="FillAndExpand">
+    <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+      <CollectionView SelectionMode="Multiple"
+                    ItemsSource="{Binding Messages}">
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <SwipeView>
+              <v:ChatListV/>
+            </SwipeView>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+    </ScrollView>
+    <FlexLayout Grid.Row="2" HorizontalOptions="FillAndExpand" MaximumHeightRequest="200">
+      <Editor Placeholder="Message" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" FlexLayout.Grow="1" AutoSize="TextChanges" MaximumHeightRequest="200" Style="{StaticResource Editor-MessageBox}" Text="{Binding Message.Text}"/>
+      <Button Text="📎" HorizontalOptions="End" VerticalOptions="End" MaximumHeightRequest="50" MaximumWidthRequest="50" MinimumWidthRequest="{Binding Source={RelativeSource Self}, Path=Height}" Style="{StaticResource Button-Default}"/>
+      <Button Text="➤" HorizontalOptions="End" VerticalOptions="End" MaximumHeightRequest="50" MaximumWidthRequest="50" MinimumWidthRequest="{Binding Source={RelativeSource Self}, Path=Height}" Style="{StaticResource Button-Default}" Command="{Binding SendMessageCommand}"/>
+    </FlexLayout>
+  </Grid>
+</ContentPage>

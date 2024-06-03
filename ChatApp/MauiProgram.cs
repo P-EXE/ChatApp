@@ -1,16 +1,14 @@
-﻿using Auth0.OidcClient;
-using ChatApp.DataContexts;
-using ChatApp.DataServices;
-using ChatApp.Flows;
-using ChatApp.Models;
+﻿using ChatApp.DataContexts;
 using ChatApp.Pages;
 using ChatApp.Services;
 using ChatApp.ViewModels;
 using ChatApp.Views;
-using IdentityModel.OidcClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
+using Microsoft.Data.Sqlite;
+using System.Net.Http.Headers;
+using ChatApp.Models;
 
 namespace ChatApp;
 
@@ -21,55 +19,34 @@ public static class MauiProgram
     var builder = MauiApp.CreateBuilder();
     builder
       .UseMauiApp<App>()
+      .UseMauiCommunityToolkit()
       .ConfigureFonts(fonts =>
       {
         fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
         fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
       });
 
-    #region Auth
-/*    builder.Services.AddTransient<OidcClient>(sp =>
-      new OidcClient(
-        new OidcClientOptions
-        {
-          Authority = "https://localhost:7014",
-          ClientId = "ChatApp.AppClient",
-          Scope = "",
-          RedirectUri = "",
-          PostLogoutRedirectUri = "",
-          ClientSecret = "",
-          HttpClientFactory = options => sp.GetRequiredService<HttpClient>()
-        }
-      )
-    );*/
-    #endregion Auth
+    #region Services
+    builder.Services.AddTransient<IOwnerService, OwnerService>();
+    builder.Services.AddTransient<IUserService, UserService>();
+    builder.Services.AddTransient<IChatService, ChatService>();
+    builder.Services.AddTransient<IMessageService, MessageService>();
+    builder.Services.AddTransient<IHttpService, HttpService>();
+    builder.Services.AddHttpClient<IHttpService, HttpService>(client =>
+    {
+      client.BaseAddress = new Uri(Statics.RouteBaseHttp);
+      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Statics.BearerToken?.AccessToken ?? "");
+    });
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    #endregion Services
 
     #region SQLiteDBContext
-    string SQLitePath = Path.Combine(
-      FileSystem.AppDataDirectory,
-      builder.Configuration.GetConnectionString("ChatApp-SQLiteConnection") ?? ""
-    );
-
+    SqliteConnection sqliteConnection = new(Statics.LocalSQLiteConnection);
+    sqliteConnection.Open();
     builder.Services.AddDbContext<SQLiteDBContext>(options =>
-      options.UseSqlite(SQLitePath)
+      options.UseSqlite(sqliteConnection)
     );
     #endregion SQLiteDBContext
-
-    #region Models
-    #endregion Models
-
-    #region Flows
-    builder.Services.AddTransient<FirstTimeFlow>();
-    #endregion Flows
-
-    #region Services
-    builder.Services.AddSingleton<HTTPDataService>();
-    builder.Services.AddSingleton<UserDataService_Local>();
-    builder.Services.AddSingleton<UserDataService_API>();
-    builder.Services.AddSingleton<UserService>();
-
-    builder.Services.AddSingleton<ChatService>();
-    #endregion Services
 
     #region Pages Views Viewmodels
     builder.Services.AddTransient<AppShell>();
@@ -82,7 +59,24 @@ public static class MauiProgram
 
     builder.Services.AddTransient<ChatsPage>();
     builder.Services.AddTransient<ChatsVM>();
-    builder.Services.AddTransient<ChatV>();
+    builder.Services.AddTransient<ChatListV>();
+    builder.Services.AddTransient<ChatPage>();
+    builder.Services.AddTransient<ChatVM>();
+    builder.Services.AddTransient<ChatDetailsPage>();
+    builder.Services.AddTransient<ChatDetailsVM>();
+
+    builder.Services.AddTransient<ContactsPage>();
+    builder.Services.AddTransient<ContactsVM>();
+    builder.Services.AddTransient<ContactV>();
+
+    builder.Services.AddTransient<UserProfilePage>();
+    builder.Services.AddTransient<UserProfileVM>();
+
+    builder.Services.AddTransient<UserSearchPage>();
+    builder.Services.AddTransient<UserSearchVM>();
+
+    builder.Services.AddTransient<SettingsPage>();
+    builder.Services.AddTransient<SettingsVM>();
     #endregion Pages Views Viewmodels
 
 #if DEBUG

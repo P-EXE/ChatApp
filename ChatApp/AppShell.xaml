@@ -8,11 +8,34 @@
     Shell.FlyoutBehavior="Disabled"
     Title="ChatApp">
 
+  <FlyoutItem Title="Register" FlyoutItemIsVisible="True">
+    <Tab Title="Register">
+      <ShellContent
+        ContentTemplate="{DataTemplate pages:RegisterPage}"
+        Route="RegisterPage"/>
+    </Tab>
+    <Tab Title="Log in">
+      <ShellContent
+        ContentTemplate="{DataTemplate pages:LoginPage}"
+        Route="LoginPage" />
+    </Tab>
+  </FlyoutItem>
+
   <TabBar>
     <Tab Title="Chats">
       <ShellContent
         ContentTemplate="{DataTemplate pages:ChatsPage}"
         Route="ChatsPage" />
+    </Tab>
+    <Tab Title="Contacts">
+      <ShellContent
+        ContentTemplate="{DataTemplate pages:ContactsPage}"
+        Route="ContactsPage" />
+    </Tab>
+    <Tab Title="Settings">
+      <ShellContent
+        ContentTemplate="{DataTemplate pages:SettingsPage}"
+        Route="SettingsPage" />
     </Tab>
   </TabBar>
 
