@@ -1,8 +1,10 @@
-﻿using ChatApp.Pages;
+﻿using ChatApp.Messaging;
+using ChatApp.Pages;
 using ChatApp.Services;
 using ChatShared.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 
 namespace ChatApp.ViewModels;
@@ -14,6 +16,11 @@ public partial class ChatsVM : ObservableObject
   {
     _chatService = chatService;
     RefreshChatList();
+
+    WeakReferenceMessenger.Default.Register<PageReturnObjectMessage<Chat>>(this, (r, m) =>
+    {
+      AddChat(m.Value);
+    });
   }
 
   [ObservableProperty]
@@ -28,6 +35,14 @@ public partial class ChatsVM : ObservableObject
   {
     IEnumerable<Chat>? chats = await _chatService.GetChatsAsync();
     Chats = new(chats);
+  }
+
+  public async Task AddChat(Chat chat)
+  {
+    if (!Chats.Contains(chat))
+    {
+      Chats.Add(chat);
+    }
   }
 
   [RelayCommand]
@@ -47,10 +62,5 @@ public partial class ChatsVM : ObservableObject
       { "Chat", SelectedChat }
     });
     SelectedChat = null;
-  }
-
-  private async Task GenerateChatPreviews()
-  {
-
   }
 }

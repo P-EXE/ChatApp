@@ -89,8 +89,13 @@ public partial class ChatDetailsVM : ObservableObject
   {
     Members.Add(Statics.AppOwner);
     Chat.Users = Members;
-    await _chatService.CreateChatAsync(Chat);
-    await NavToChat();
+    
+    Chat = await _chatService.CreateChatAsync(Chat);
+
+    WeakReferenceMessenger.Default.Send(new PageReturnObjectMessage<Chat>(Chat));
+
+    if (Chat != null)
+      await NavToChat();
   }
 
   private async Task UpdateChat()
